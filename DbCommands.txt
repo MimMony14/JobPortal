@@ -1,0 +1,43 @@
+CREATE DATABASE JobPortal;
+
+USE JobPortal;
+
+-- First, create the Organizations table
+CREATE TABLE Organizations (
+    OrganizationId INT IDENTITY(1,1) PRIMARY KEY,
+    CompanyName VARCHAR(200),
+	CompanyImage VARCHAR(500),
+	Website VARCHAR(100),
+	Email VARCHAR(50)
+);
+
+-- Then, create the Jobs table with a foreign key
+CREATE TABLE Jobs (
+JobId INT IDENTITY(1,1) PRIMARY KEY,
+Title VARCHAR(100) NOT NULL,
+Vacancy INT,
+Description VARCHAR(MAX),
+Qualification VARCHAR(50),
+Experience VARCHAR(50),
+Specialization VARCHAR(MAX),
+LastDateToApply Date,
+Salary VARCHAR(50),
+JobType VARCHAR(50),
+OrganizationId INT,  -- foreign key
+Address VARCHAR(50),
+Country VARCHAR(50),
+State VARCHAR(50),
+CreateDate DATETIME DEFAULT GETDATE(),
+CONSTRAINT FK_Jobs_Organizations FOREIGN KEY (OrganizationId)
+        REFERENCES Organizations(OrganizationId)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+-- Add an organization
+INSERT INTO Organizations (CompanyName, CompanyImage, Website, Email)
+VALUES ('TechCorp', 'https://example.com/logo.png', 'https://techcorp.com', 'info@techcorp.com');
+
+-- Add a job linked to that organization (OrganizationId = 1)
+INSERT INTO Jobs (Title, Vacancy, Description, Qualification, Experience, Specialization, LastDateToApply, Salary, JobType, OrganizationId, Address, Country, State)
+VALUES ('Software Engineer', 5, 'Develop and maintain software applications.', 'BSc in CS', '2 years', 'Backend Development', '2026-01-31', '$5000/month', 'Full-Time', 1, '123 Tech Street', 'USA', 'California');

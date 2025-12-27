@@ -1,7 +1,13 @@
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+builder.Services.AddDbContext<JobPortalContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("JobPortalConnection")));
+
 
 var app = builder.Build();
 
@@ -15,15 +21,15 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
+app.UseStaticFiles(); //added
 app.UseAuthorization();
 
-app.MapStaticAssets();
+//app.MapStaticAssets(); i removed
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}")
-    .WithStaticAssets();
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+    //.WithStaticAssets(); i removed
 
 
 app.Run();

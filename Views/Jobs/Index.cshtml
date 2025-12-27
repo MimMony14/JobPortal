@@ -1,0 +1,37 @@
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewData["Title"] = "Post Page";
+}
+@model IEnumerable<Job>
+
+<div class="text-center">
+    <h1>Job Listings</h1>
+    <p class="text-muted">Browse available job openings.</p>
+
+    <a href="/Jobs/Create" class="btn btn-primary mb-3">Add New Job</a>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Company</th>
+                <th>Vacancy</th>
+                <th>Last Date</th>
+            </tr>
+        </thead>
+        <tbody>
+        @foreach(var job in Model)
+        {
+            <tr>
+                <td>@job.Title</td>
+                <td>@job.Organization?.CompanyName</td>
+                <td>@job.Vacancy</td>
+                <td>@(job.LastDateToApply == null ? "" : job.LastDateToApply.Value.ToShortDateString())</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>

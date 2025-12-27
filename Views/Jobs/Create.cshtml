@@ -1,0 +1,62 @@
+@model Job
+@using Microsoft.AspNetCore.Mvc.Rendering
+<div class="text-center">
+<h2>Add a New Job</h2>
+
+<form asp-action="Create" method="post">
+     @Html.AntiForgeryToken()
+    <div>
+        <label>Title</label>
+        <input asp-for="Title" />
+    </div>
+    <div>
+        <label>Vacancy</label>
+        <input asp-for="Vacancy" type="number" />
+    </div>
+    <div>
+        <label>Description</label>
+        <textarea asp-for="Description"></textarea>
+    </div>
+    <div>
+        <label>Qualification</label>
+        <input asp-for="Qualification" />
+    </div>
+    <div>
+        <label>Experience</label>
+        <input asp-for="Experience" />
+    </div>
+    <div>
+        <label>Specialization</label>
+        <input asp-for="Specialization" />
+    </div>
+    <div>
+        <label>Last Date to Apply</label>
+        <input asp-for="LastDateToApply" type="date" />
+    </div>
+    <div>
+        <label>Salary</label>
+        <input asp-for="Salary" />
+    </div>
+    <div>
+        <label>Job Type</label>
+        <input asp-for="JobType" />
+    </div>
+    <div>
+        <label>Organization</label>
+        <select asp-for="OrganizationId" asp-items="ViewBag.Organizations"></select>
+    </div>
+    <div>
+        <label>Address</label>
+        <input asp-for="Address" />
+    </div>
+    <div>
+        <label>Country</label>
+        <input asp-for="Country" />
+    </div>
+    <div>
+        <label>State</label>
+        <input asp-for="State" />
+    </div>
+    <button type="submit">Add Job</button>
+</form>
+</div>
