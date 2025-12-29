@@ -40,4 +40,4 @@ VALUES ('TechCorp', 'https://example.com/logo.png', 'https://techcorp.com', 'inf
 
 -- Add a job linked to that organization (OrganizationId = 1)
 INSERT INTO Jobs (Title, Vacancy, Description, Qualification, Experience, Specialization, LastDateToApply, Salary, JobType, OrganizationId, Address, Country, State)
-VALUES ('Software Engineer', 5, 'Develop and maintain software applications.', 'BSc in CS', '2 years', 'Backend Development', '2026-01-31', '$5000/month', 'Full-Time', 1, '123 Tech Street', 'USA', 'California');
+VALUES ('Software Engineer', 5, 'Develop and maintain software applications.', 'BSc in CS', '2 years', 'Backend Development', '2026-01-31', '5000', 'Full-Time', 1, '123 Tech Street', 'USA', 'California');

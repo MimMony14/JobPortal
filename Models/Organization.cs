@@ -5,6 +5,5 @@ public class Organization
     public string CompanyImage { get; set; }
     public string Website { get; set; }
     public string Email { get; set; }
-
     public virtual ICollection<Job> Jobs { get; set; }
 }

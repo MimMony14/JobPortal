@@ -16,7 +16,7 @@ public class Job
 
     public DateTime? LastDateToApply { get; set; }
 
-    public string? Salary { get; set; }
+    public double? Salary { get; set; }
 
     public string? JobType { get; set; }
 

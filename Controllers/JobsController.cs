@@ -21,9 +21,11 @@ public class JobsController : Controller
     // Display job details
     public IActionResult Details(int id)
     {
-        var job = _context.Jobs.Include(j => j.Organization)
-                               .FirstOrDefault(j => j.JobId == id);
-        if (job == null) return NotFound();
+        var job = _context.Jobs.Include(j => j.Organization).FirstOrDefault(j => j.JobId == id);
+        if (job == null) 
+        {
+            return NotFound();
+        }
         return View(job);
     }
     // GET: show the form

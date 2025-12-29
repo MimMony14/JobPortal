@@ -1,57 +1,138 @@
 @model IEnumerable<Job>
 
 @{
-    ViewBag.Title = "JobGenie Admin Portal";
+    ViewBag.Title = "Admin Portal";
 }
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
+
 <style>
-    body { background-color: #f8faff; font-family: 'Inter', 'Segoe UI', sans-serif; }
-    
-    .job-card { 
-        background: white; 
-        border: 1px solid #eef2f6; 
-        border-radius: 18px; 
-        padding: 24px; 
-        margin-bottom: 20px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-    }
-    
-    .company-logo { 
-        width: 52px; height: 52px; 
-        border-radius: 12px; 
-        object-fit: cover;
-        background: #f1f5f9;
-    }
+body { background-color: #f8faff; font-family: 'Inter', 'Segoe UI', sans-serif; }
 
-    .badge-type { background: #f1f3f5; color: #64748b; font-weight: 600; font-size: 11px; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
-    .badge-admin { background: #f3e8ff; color: #a855f7; font-weight: 600; font-size: 11px; padding: 4px 10px; border-radius: 6px; }
-    
-    .job-title { color: #0f172a; font-weight: 700; font-size: 1.2rem; text-decoration: none; }
-    .job-title:hover { color: #2563eb; }
+/* Job cards */
+.job-card { 
+    background: white; 
+    border: 1px solid #eef2f6; 
+    border-radius: 18px; 
+    padding: 24px; 
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
 
-    .price-text { color: #16a34a; font-weight: 600; }
-    .meta-text { color: #64748b; font-size: 0.9rem; }
+.company-logo { 
+    width: 52px; height: 52px; 
+    border-radius: 12px; 
+    object-fit: cover;
+    background: #f1f5f9;
+}
 
-    .btn-action-outline { border: 1px solid #e2e8f0; color: #475569; border-radius: 10px; padding: 10px; font-weight: 600; width: 100%; background: white; transition: 0.2s; }
-    .btn-action-outline:hover { background: #f8fafc; border-color: #cbd5e1; }
-    
-    .btn-hiring-panel { border: 1px solid #dcfce7; color: #16a34a; border-radius: 10px; padding: 10px; font-weight: 600; width: 100%; background: white; transition: 0.2s; }
-    .btn-hiring-panel:hover { background: #f0fdf4; }
+.badge-type { background: #f1f3f5; color: #64748b; font-weight: 600; font-size: 11px; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
 
-    .icon-group .bi { color: #94a3b8; font-size: 1.1rem; cursor: pointer; transition: 0.2s; }
-    .icon-group .bi:hover { color: #475569; }
+.job-title { color: #0f172a; font-weight: 700; font-size: 1.2rem; text-decoration: none; }
+.job-title:hover { color: #2563eb; }
+
+.price-text { color: #16a34a; font-weight: 600; }
+.meta-text { color: #64748b; font-size: 0.9rem; }
+
+.btn-action-outline { border: 1px solid #e2e8f0; color: #475569; border-radius: 10px; padding: 10px; font-weight: 600; width: 100%; background: white; transition: 0.2s; }
+.btn-action-outline:hover { background: #f8fafc; border-color: #cbd5e1; }
+
+.btn-hiring-panel { border: 1px solid #dcfce7; color: #16a34a; border-radius: 10px; padding: 10px; font-weight: 600; width: 100%; background: white; transition: 0.2s; }
+.btn-hiring-panel:hover { background: #f0fdf4; }
+
+.icon-group .bi { color: #94a3b8; font-size: 1.1rem; cursor: pointer; transition: 0.2s; }
+.icon-group .bi:hover { color: #475569; }
+
+/* Modal / overlay */
+#jobDetailsOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+    background-color: rgba(15,23,42,0.35);
+    backdrop-filter: blur(6px);
+    overflow-y: auto;
+    padding: 50px 15px;
+}
+
+#jobDetailsOverlay .overlay-card {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+#jobDetailsOverlay .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    border: none;
+    background: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.overlay-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.company-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+.company-info img {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+.company-info div span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 16px 0;
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+}
+.info-row div span:first-child { color: #64748b; display:block; font-size:0.8rem; margin-bottom:4px; }
+
+.tag { 
+    background: #f1f3f5; 
+    color: #0f172a; 
+    font-size: 0.8rem; 
+    padding: 4px 10px; 
+    border-radius: 8px;
+    display:inline-block;
+    margin-right:6px;
+    margin-top:6px;
+}
 </style>
 
 <div class="container py-5" style="max-width: 850px;">
-<a href="/Jobs/Create" class="btn btn-primary mb-3">Add New Job</a>
+    <a href="/Jobs/Create" class="btn btn-primary mb-3">Add New Job</a>
 
     @foreach (var item in Model)
     {
         <div class="job-card">
             <div class="d-flex justify-content-between">
                 <div class="d-flex gap-3">
-                    <img src="" class="company-logo" alt="Logo" />
-                    
                     <div>
                         <div class="d-flex align-items-center gap-2 mb-1">
                             <span class="text-primary fw-bold small" style="letter-spacing: 0.5px;">
@@ -60,16 +141,16 @@
                             <span class="badge-type">@item.JobType</span>
                         </div>
 
-                        <a asp-action="Details" asp-route-id="@item.JobId" class="job-title">
+                        <a href="javascript:void(0)" 
+                           class="job-title"
+                           onclick="openJobOverlay('@item.Title','https://via.placeholder.com/48','@item.Organization?.CompanyName','@item.JobType','@item.Address','@item.Salary','@(item.CreateDate?.ToString("MMM dd"))','@item.Description')">
                             @item.Title
-                            @if(item.JobType?.ToLower() == "contract") { <i class="bi bi-arrow-up-right small"></i> }
                         </a>
 
                         <div class="mt-2 d-flex gap-3 meta-text">
                             <span><i class="bi bi-geo-alt-fill text-primary"></i> @item.Address</span>
                             <span class="price-text">
-                                <i class="bi bi-currency-dollar"></i> 
-                                @item.Salary
+                                <i class="bi bi-currency-dollar"></i> @item.Salary
                             </span>
                             <span><i class="bi bi-clock"></i> @(item.CreateDate.HasValue ? item.CreateDate.Value.ToString("MMM dd") : "N/A")</span>
                         </div>
@@ -85,7 +166,10 @@
 
             <div class="row g-3 mt-3">
                 <div class="col-6">
-                    <a asp-action="Details" asp-route-id="@item.JobId" class="btn btn-action-outline text-decoration-none d-block text-center">Details</a>
+                    <button class="btn btn-action-outline w-100"
+                        onclick="openJobOverlay('@item.Title','https://via.placeholder.com/48','@item.Organization?.CompanyName','@item.JobType','@item.Address','@item.Salary','@(item.CreateDate?.ToString("MMM dd"))','@item.Description')">
+                        Details
+                    </button>
                 </div>
                 <div class="col-6">
                     <button class="btn btn-hiring-panel">Hiring Panel</button>
@@ -94,3 +178,63 @@
         </div>
     }
 </div>
+
+<!-- Overlay -->
+<div id="jobDetailsOverlay">
+    <div class="overlay-card">
+        <button class="close-btn" onclick="closeJobOverlay()">&times;</button>
+
+        <div class="overlay-header">
+            <h5>Job Details</h5>
+        </div>
+
+        <div class="company-info">
+            <img id="overlayImg" src="" />
+            <div>
+                <div id="overlayJobTitle" class="fw-semibold"></div>
+                <span><i class="bi bi-building"></i> <span id="overlayCompany"></span></span>
+            </div>
+            <button class="btn btn-primary ms-auto">Apply Now</button>
+        </div>
+
+        <div class="info-row">
+            <div><span>LOCATION</span> <strong id="overlayAddress"></strong></div>
+            <div><span>TYPE</span> <strong id="overlayType"></strong></div>
+            <div><span>SALARY</span> <strong id="overlaySalary"></strong></div>
+            <div><span>POSTED</span> <strong id="overlayDate"></strong></div>
+        </div>
+
+        <div class="mt-3">
+            <h6>Description</h6>
+            <p id="overlayDescription" class="text-muted mb-0"></p>
+
+        </div>
+
+        <div id="overlayTags" class="mt-2">
+            <span class="tag">React</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Tailwind</span>
+        </div>
+    </div>
+</div>
+
+<script>
+function openJobOverlay(title,img,company,type,address,salary,date,description){
+    document.getElementById('overlayJobTitle').textContent = title;
+    document.getElementById('overlayImg').src = img;
+    document.getElementById('overlayCompany').textContent = company;
+    document.getElementById('overlayType').textContent = type;
+    document.getElementById('overlayAddress').textContent = address;
+    document.getElementById('overlaySalary').textContent = salary;
+    document.getElementById('overlayDate').textContent = date;
+    document.getElementById('overlayDescription').textContent = description;
+    document.getElementById('jobDetailsOverlay').style.display = 'block';
+}
+
+function closeJobOverlay(){
+    document.getElementById('jobDetailsOverlay').style.display = 'none';
+}
+document.getElementById('jobDetailsOverlay').addEventListener('click', function(e){
+    if(e.target === this) closeJobOverlay();
+});
+</script>
