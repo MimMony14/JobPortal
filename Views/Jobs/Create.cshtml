@@ -1,62 +1,165 @@
 @model Job
 @using Microsoft.AspNetCore.Mvc.Rendering
-<div class="text-center">
-<h2>Add a New Job</h2>
 
-<form asp-action="Create" method="post">
-     @Html.AntiForgeryToken()
-    <div>
-        <label>Title</label>
-        <input asp-for="Title" />
+
+
+<div class="modal fade" id="addJobModal" tabindex="-1">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content rounded-4 border-0">
+
+            <div class="modal-header border-0">
+                <h5 class="modal-title fw-semibold">Post a New Job</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <form asp-action="Create" method="post">
+                @Html.AntiForgeryToken()
+
+                <div class="modal-body">
+
+                    <!-- STEP 1 -->
+                    <div id="step1">
+                        <div class="row g-3">
+
+                            <div class="col-md-6">
+                                <label class="form-label">Job Title</label>
+                                <input asp-for="Title" class="form-control"
+                                       placeholder="e.g. Senior Product Designer" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Company Name</label>
+                                <select asp-for="OrganizationId"
+                                        asp-items="ViewBag.Organizations"
+                                        class="form-select">
+                                    <option value="">Select company</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Location</label>
+                                <input asp-for="Address" class="form-control"
+                                       placeholder="e.g. Remote, NY" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Job Type</label>
+                                <input asp-for="JobType" class="form-control"
+                                       placeholder="Full-time" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Salary</label>
+                                <input asp-for="Salary" type="number" step="0.01" class="form-control"
+                                       placeholder="100000" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Vacancy</label>
+                                <input asp-for="Vacancy" type="number" class="form-control" />
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <!-- STEP 2 -->
+                    <div id="step2" class="d-none">
+                        <div class="row g-3">
+
+                            <div class="col-12">
+                                <label class="form-label">Tags (comma separated)</label>
+                                <input asp-for="Specialization" class="form-control"
+                                       placeholder="React, Design, Marketing" />
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Key Skills</label>
+                                <input asp-for="Description" class="form-control"
+                                       placeholder="Briefly list key skills e.g. React, Node, AWS" />
+                            </div>
+
+                            <div class="col-12">
+                                <label class="form-label">Detailed Description</label>
+                                <textarea asp-for="Description"
+                                          class="form-control"
+                                          rows="4"
+                                          placeholder="What makes this role special?"></textarea>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Qualification</label>
+                                <input asp-for="Qualification" class="form-control" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Experience</label>
+                                <input asp-for="Experience" class="form-control" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Country</label>
+                                <input asp-for="Country" class="form-control" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">State</label>
+                                <input asp-for="State" class="form-control" />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Last Date to Apply</label>
+                                <input asp-for="LastDateToApply" type="date" class="form-control" />
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- FOOTER -->
+                <div class="modal-footer border-0">
+
+                    <div id="step1Buttons">
+                        <button type="button"
+                                class="btn btn-primary px-4"
+                                onclick="goToStep2()">
+                            Continue
+                        </button>
+                    </div>
+
+                    <div id="step2Buttons" class="d-none">
+                        <button type="button"
+                                class="btn btn-light"
+                                onclick="goToStep1()">
+                            Back
+                        </button>
+                        <button type="submit"
+                                class="btn btn-primary px-4">
+                            Publish Job
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
     </div>
-    <div>
-        <label>Vacancy</label>
-        <input asp-for="Vacancy" type="number" />
-    </div>
-    <div>
-        <label>Description</label>
-        <textarea asp-for="Description"></textarea>
-    </div>
-    <div>
-        <label>Qualification</label>
-        <input asp-for="Qualification" />
-    </div>
-    <div>
-        <label>Experience</label>
-        <input asp-for="Experience" />
-    </div>
-    <div>
-        <label>Specialization</label>
-        <input asp-for="Specialization" />
-    </div>
-    <div>
-        <label>Last Date to Apply</label>
-        <input asp-for="LastDateToApply" type="date" />
-    </div>
-    <div>
-        <label>Salary</label>
-        <input asp-for="Salary" />
-    </div>
-    <div>
-        <label>Job Type</label>
-        <input asp-for="JobType" />
-    </div>
-    <div>
-        <label>Organization</label>
-        <select asp-for="OrganizationId" asp-items="ViewBag.Organizations"></select>
-    </div>
-    <div>
-        <label>Address</label>
-        <input asp-for="Address" />
-    </div>
-    <div>
-        <label>Country</label>
-        <input asp-for="Country" />
-    </div>
-    <div>
-        <label>State</label>
-        <input asp-for="State" />
-    </div>
-    <button type="submit">Add Job</button>
-</form>
 </div>
+
+<script>
+    function goToStep2() {
+        document.getElementById('step1').classList.add('d-none');
+        document.getElementById('step2').classList.remove('d-none');
+
+        document.getElementById('step1Buttons').classList.add('d-none');
+        document.getElementById('step2Buttons').classList.remove('d-none');
+    }
+
+    function goToStep1() {
+        document.getElementById('step2').classList.add('d-none');
+        document.getElementById('step1').classList.remove('d-none');
+
+        document.getElementById('step2Buttons').classList.add('d-none');
+        document.getElementById('step1Buttons').classList.remove('d-none');
+    }
+</script>

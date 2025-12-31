@@ -3,9 +3,6 @@
 @{
     ViewBag.Title = "Admin Portal";
 }
-
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet" />
-
 <style>
 body { background-color: #f8faff; font-family: 'Inter', 'Segoe UI', sans-serif; }
 
@@ -126,8 +123,8 @@ body { background-color: #f8faff; font-family: 'Inter', 'Segoe UI', sans-serif; 
 </style>
 
 <div class="container py-5" style="max-width: 850px;">
-    <a href="/Jobs/Create" class="btn btn-primary mb-3">Add New Job</a>
-
+    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addJobModal">Add New Job</button>
+    @await Html.PartialAsync("Create", new Job())
     @foreach (var item in Model)
     {
         <div class="job-card">
@@ -178,63 +175,4 @@ body { background-color: #f8faff; font-family: 'Inter', 'Segoe UI', sans-serif; 
         </div>
     }
 </div>
-
-<!-- Overlay -->
-<div id="jobDetailsOverlay">
-    <div class="overlay-card">
-        <button class="close-btn" onclick="closeJobOverlay()">&times;</button>
-
-        <div class="overlay-header">
-            <h5>Job Details</h5>
-        </div>
-
-        <div class="company-info">
-            <img id="overlayImg" src="" />
-            <div>
-                <div id="overlayJobTitle" class="fw-semibold"></div>
-                <span><i class="bi bi-building"></i> <span id="overlayCompany"></span></span>
-            </div>
-            <button class="btn btn-primary ms-auto">Apply Now</button>
-        </div>
-
-        <div class="info-row">
-            <div><span>LOCATION</span> <strong id="overlayAddress"></strong></div>
-            <div><span>TYPE</span> <strong id="overlayType"></strong></div>
-            <div><span>SALARY</span> <strong id="overlaySalary"></strong></div>
-            <div><span>POSTED</span> <strong id="overlayDate"></strong></div>
-        </div>
-
-        <div class="mt-3">
-            <h6>Description</h6>
-            <p id="overlayDescription" class="text-muted mb-0"></p>
-
-        </div>
-
-        <div id="overlayTags" class="mt-2">
-            <span class="tag">React</span>
-            <span class="tag">TypeScript</span>
-            <span class="tag">Tailwind</span>
-        </div>
-    </div>
-</div>
-
-<script>
-function openJobOverlay(title,img,company,type,address,salary,date,description){
-    document.getElementById('overlayJobTitle').textContent = title;
-    document.getElementById('overlayImg').src = img;
-    document.getElementById('overlayCompany').textContent = company;
-    document.getElementById('overlayType').textContent = type;
-    document.getElementById('overlayAddress').textContent = address;
-    document.getElementById('overlaySalary').textContent = salary;
-    document.getElementById('overlayDate').textContent = date;
-    document.getElementById('overlayDescription').textContent = description;
-    document.getElementById('jobDetailsOverlay').style.display = 'block';
-}
-
-function closeJobOverlay(){
-    document.getElementById('jobDetailsOverlay').style.display = 'none';
-}
-document.getElementById('jobDetailsOverlay').addEventListener('click', function(e){
-    if(e.target === this) closeJobOverlay();
-});
-</script>
+@await Html.PartialAsync("Details")

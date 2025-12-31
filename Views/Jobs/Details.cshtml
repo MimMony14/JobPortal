@@ -1,76 +1,59 @@
-@{
-    ViewBag.Title = "Jobs";
+<!-- Overlay -->
+<div id="jobDetailsOverlay">
+    <div class="overlay-card">
+        <button class="close-btn" onclick="closeJobOverlay()">&times;</button>
+
+        <div class="overlay-header">
+            <h5>Job Details</h5>
+        </div>
+
+        <div class="company-info">
+            <img id="overlayImg" src="" />
+            <div>
+                <div id="overlayJobTitle" class="fw-semibold"></div>
+                <span><i class="bi bi-building"></i> <span id="overlayCompany"></span></span>
+            </div>
+            <button class="btn btn-primary ms-auto">Apply Now</button>
+        </div>
+
+        <div class="info-row">
+            <div><span>LOCATION</span> <strong id="overlayAddress"></strong></div>
+            <div><span>TYPE</span> <strong id="overlayType"></strong></div>
+            <div><span>SALARY</span> <strong id="overlaySalary"></strong></div>
+            <div><span>POSTED</span> <strong id="overlayDate"></strong></div>
+        </div>
+
+        <div class="mt-3">
+            <h6>Description</h6>
+            <p id="overlayDescription" class="text-muted mb-0"></p>
+
+        </div>
+
+        <div id="overlayTags" class="mt-2">
+            <span class="tag">React</span>
+            <span class="tag">TypeScript</span>
+            <span class="tag">Tailwind</span>
+        </div>
+    </div>
+</div>
+
+<script>
+function openJobOverlay(title,img,company,type,address,salary,date,description){
+    document.getElementById('overlayJobTitle').textContent = title;
+    document.getElementById('overlayImg').src = img;
+    document.getElementById('overlayCompany').textContent = company;
+    document.getElementById('overlayType').textContent = type;
+    document.getElementById('overlayAddress').textContent = address;
+    document.getElementById('overlaySalary').textContent = salary;
+    document.getElementById('overlayDate').textContent = date;
+    document.getElementById('overlayDescription').textContent = description;
+    document.getElementById('jobDetailsOverlay').style.display = 'block';
 }
 
-<!-- Trigger button (example job card button) -->
-<button class="btn btn-outline-primary"
-        data-bs-toggle="modal"
-        data-bs-target="#jobDetailsModal">
-    View Details
-</button>
-
-<!-- Modal -->
-<div class="modal fade" id="jobDetailsModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content p-4" style="border-radius:16px;">
-
-            <!-- Header -->
-            <div class="d-flex justify-content-between align-items-start">
-                <h5 class="fw-bold mb-0">Job Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
-
-            <hr />
-
-            <!-- Job Title -->
-            <div class="d-flex align-items-center justify-content-between">
-                <div class="d-flex align-items-center gap-3">
-                    <img src="https://via.placeholder.com/48"
-                         style="width:48px;height:48px;border-radius:8px;object-fit:cover;" />
-
-                    <div>
-                        <h5 class="mb-1 fw-semibold">Senior Frontend Engineer</h5>
-                        <div class="text-muted small">
-                            <i class="bi bi-building"></i> TechFlow Solutions
-                        </div>
-                    </div>
-                </div>
-
-                <button class="btn btn-primary px-4">
-                    Apply Now
-                </button>
-            </div>
-
-            <!-- Info Row -->
-            <div class="row text-center mt-4 g-3">
-                <div class="col-6 col-md-3">
-                    <div class="p-2 rounded-3" style="background:#f8fafc;">
-                        <div class="text-muted small mb-1">
-                            <i class="bi bi-geo-alt"></i> Location
-                        </div>
-                        <div class="fw-medium">San Francisco, CA</div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <div class="p-2 rounded-3" style="background:#f8fafc;">
-                        <div class="text-muted small mb-1">
-                            <i class="bi bi-briefcase"></i> Type
-                        </div>
-                        <div class="fw-medium">Full-time</div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <div class="p-2 rounded-3" style="background:#f8fafc;">
-                        <div class="text-muted small mb-1">
-                            <i class="bi bi-currency-dollar"></i> Salary
-                        </div>
-                        <div class="fw-medium">$140K - $180K</div>
-                    </div>
-                </div>
-
-                <div class="col-6 col-md-3">
-                    <div class="p-2 rounded-3" style="background:#f8fafc;">
-                        <div class="text-muted small mb-1">
-                            <i class="bi bi-calendar"></i> Posted
+function closeJobOverlay(){
+    document.getElementById('jobDetailsOverlay').style.display = 'none';
+}
+document.getElementById('jobDetailsOverlay').addEventListener('click', function(e){
+    if(e.target === this) closeJobOverlay();
+});
+</script>
