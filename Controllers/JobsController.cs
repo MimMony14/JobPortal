@@ -14,7 +14,15 @@ public class JobsController : Controller
     // Display all jobs
     public IActionResult Index()
     {
-        var jobs = _context.Jobs.Include(j => j.Organization).ToList();
+        ViewBag.Organizations = new SelectList(
+            _context.Organizations.ToList(),
+            "OrganizationId",
+            "CompanyName"
+        );
+        var jobs = _context.Jobs
+            .Include(j => j.Organization)
+            .ToList();
+
         return View(jobs);
     }
 
@@ -35,27 +43,20 @@ public class JobsController : Controller
 
         return View(job);
     }
-    // GET: show the form
-public IActionResult Create()
-{
-    ViewBag.Organizations = new SelectList(_context.Organizations, "OrganizationId", "CompanyName");
-    return View();
-}
-
-// POST: handle form submission
-[HttpPost]
-[ValidateAntiForgeryToken]
-public IActionResult Create(Job job)
-{
-    if (ModelState.IsValid)
+    // POST: handle form submission
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Create(Job job)
     {
-        job.CreateDate = DateTime.Now;
-        _context.Jobs.Add(job);
-        _context.SaveChanges();
-        return RedirectToAction("Index", "Jobs");
+        if (ModelState.IsValid)
+        {
+            job.CreateDate = DateTime.Now;
+            _context.Jobs.Add(job);
+            _context.SaveChanges();
+            return RedirectToAction("Index", "Jobs");
+        }
+        ViewBag.Organizations = new SelectList(_context.Organizations, "OrganizationId", "CompanyName", job.OrganizationId);
+        return View(job);
     }
-    ViewBag.Organizations = new SelectList(_context.Organizations, "OrganizationId", "CompanyName", job.OrganizationId);
-    return View(job);
-}
 
 }

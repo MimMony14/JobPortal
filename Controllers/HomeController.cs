@@ -29,9 +29,13 @@ public class HomeController : Controller
         {
             return RedirectToAction("Index","Jobs"); //redirected to JobsController
         }
+        else if(Name == "org")
+        {
+            return RedirectToAction("OrgDash","Admin"); //redirected to AdminController
+        }
         else
         {
-            return RedirectToAction("Applicant");
+            return RedirectToAction("Dashboard", "Admin");
         }
     }
     public IActionResult Privacy()

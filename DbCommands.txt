@@ -37,8 +37,31 @@ CONSTRAINT FK_Jobs_Organizations FOREIGN KEY (OrganizationId)
 
 -- Add an organization
 INSERT INTO Organizations (CompanyName, CompanyImage, Website, Email)
-VALUES ('TechCorp', 'https://example.com/logo.png', 'https://techcorp.com', 'info@techcorp.com');
+VALUES ('TechCorp', 'https://example.com/logo.png', 'https://techcorp.com', 'info@techcorp.com'),
+('Acme Corp', 'acme.png', 'https://acme.com', 'hr@acme.com'),
+('TechNova Ltd', 'technova.png', 'https://technova.io', 'careers@technova.io'),
+('ByteWorks', 'byteworks.png', 'https://byteworks.dev', 'jobs@byteworks.dev'),
+('CloudNine', 'cloudnine.png', 'https://cloudnine.ai', 'admin@cloudnine.ai');
 
 -- Add a job linked to that organization (OrganizationId = 1)
 INSERT INTO Jobs (Title, Vacancy, Description, Qualification, Experience, Specialization, LastDateToApply, Salary, JobType, Tags, OrganizationId, Address, Country, State)
-VALUES ('Software Engineer', 5, 'Develop and maintain software applications.', 'BSc in CS', '2 years', 'Backend Development', '2026-01-31', '5000', 'Full-Time', 'Python, C#, mySQL', 1, '123 Tech Street', 'USA', 'California');
+VALUES ('Software Engineer', 5, 'Develop and maintain software applications.', 'BSc in CS', '2 years', 'Backend Development', '2026-01-31', '5000', 'Full-Time', 'Python, C#, mySQL', 1, '123 Tech Street', 'USA', 'California'),
+('Web Developer', 5, 'Build and maintain web apps', 'BSc in CSE', '1-2 years',
+ 'Web Development', '2026-02-15', 45000, 'Full Time', 1,
+ 'Dhaka', 'Bangladesh', 'Dhaka', '2026-01-01', 'HTML,CSS,JavaScript'),
+
+('Backend Developer', 3, 'API and database work', 'BSc in CSE', '2-3 years',
+ 'Backend', '2026-02-20', 60000, 'Full Time', 2,
+ 'Dhaka', 'Bangladesh', 'Dhaka', '2026-01-02', 'C#,ASP.NET,SQL'),
+
+('Junior Software Engineer', 8, 'Assist senior engineers', 'BSc in CSE', 'Fresh',
+ 'Software Engineering', '2026-02-25', 35000, 'Full Time', 3,
+ 'Dhaka', 'Bangladesh', 'Dhaka', '2026-01-03', 'C++,OOP,Git'),
+
+('AI Research Intern', 2, 'Work on ML models', 'BSc in CSE', 'Final year',
+ 'Artificial Intelligence', '2026-02-28', 20000, 'Internship', 4,
+ 'Dhaka', 'Bangladesh', 'Dhaka', '2026-01-04', 'Python,ML,Data Science'),
+
+('Frontend Developer', 4, 'UI development', 'BSc in CSE', '1 year',
+ 'Frontend', '2026-03-01', 50000, 'Contract', 2,
+ 'Dhaka', 'Bangladesh', 'Dhaka', '2026-01-05', 'React,TypeScript,Tailwind');

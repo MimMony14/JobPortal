@@ -1,0 +1,246 @@
+@model IEnumerable<Job>
+
+@{
+    ViewData["Title"] = "Job Portal";
+}
+
+<!-- Bootstrap Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+<style>
+body { background-color: #f8faff; font-family: 'Inter', 'Segoe UI', sans-serif; }
+
+/* Job cards */
+.job-card { 
+    background: white; 
+    border: 1px solid #eef2f6; 
+    border-radius: 18px; 
+    padding: 24px; 
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.company-logo { 
+    width: 52px; height: 52px; 
+    border-radius: 12px; 
+    object-fit: cover;
+    background: #f1f5f9;
+}
+
+.badge-type { background: #f1f3f5; color: #64748b; font-weight: 600; font-size: 11px; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
+
+.job-title { color: #0f172a; font-weight: 700; font-size: 1.2rem; text-decoration: none; }
+.job-title:hover { color: #2563eb; }
+
+.price-text { color: #16a34a; font-weight: 600; }
+.meta-text { color: #64748b; font-size: 0.9rem; }
+
+.btn-action-outline { border: 1px solid #e2e8f0; color: #475569; border-radius: 10px; padding: 10px; font-weight: 600; width: 100%; background: white; transition: 0.2s; }
+.btn-action-outline:hover { background: #f8fafc; border-color: #cbd5e1; }
+
+.btn-hiring-panel { border: 1px solid #dcfce7; color: #16a34a; border-radius: 10px; padding: 10px; font-weight: 600; width: 100%; background: white; transition: 0.2s; }
+.btn-hiring-panel:hover { background: #f0fdf4; }
+
+.icon-group .bi { color: #94a3b8; font-size: 1.1rem; cursor: pointer; transition: 0.2s; }
+.icon-group .bi:hover { color: #475569; }
+
+/* Modal / overlay */
+#jobDetailsOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+    background-color: rgba(15,23,42,0.35);
+    backdrop-filter: blur(6px);
+    overflow-y: auto;
+    padding: 50px 15px;
+}
+
+#jobDetailsOverlay .overlay-card {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+#jobDetailsOverlay .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    border: none;
+    background: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.overlay-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.company-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+.company-info img {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+.company-info div span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 16px 0;
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+}
+.info-row div span:first-child { color: #64748b; display:block; font-size:0.8rem; margin-bottom:4px; }
+
+.tag { 
+    background: #f1f3f5; 
+    color: #0f172a; 
+    font-size: 0.8rem; 
+    padding: 4px 10px; 
+    border-radius: 8px;
+    display:inline-block;
+    margin-right:6px;
+    margin-top:6px;
+}
+</style>
+<body>
+<div class="container my-5">
+
+    <!-- Hero Card -->
+    <div class="bg-white rounded-4 p-5 shadow-sm">
+
+        <!-- Heading -->
+        <div class="text-center mb-4">
+            <h1 class="fw-bold">
+                Hire Top Talent <span class="text-primary">Faster</span>
+            </h1>
+        </div>
+
+        <!-- Search Bar -->
+        <form class="d-flex justify-content-center">
+            <div class="input-group input-group-lg w-75 shadow-sm rounded-pill overflow-hidden">
+
+                <span class="input-group-text bg-white border-0">
+                    <i class="bi bi-search text-muted"></i>
+                </span>
+                <input type="text"
+                       name="keyword"
+                       class="form-control border-0"
+                       placeholder="Design, Engineering, Product">
+
+                <span class="input-group-text bg-white border-0">
+                    <i class="bi bi-geo-alt text-muted"></i>
+                </span>
+                <input type="text"
+                       name="location"
+                       class="form-control border-0"
+                       placeholder="San Francisco, Remote">
+
+                <button class="btn btn-primary px-4 rounded-pill">
+                    Search
+                </button>
+
+            </div>
+        </form>
+
+    </div>
+
+    <!-- Active Recruitment -->
+    <div class="d-flex justify-content-between align-items-center mt-5 mb-3">
+        <h6 class="fw-semibold mb-0">Your Active Recruitment</h6>
+        <a asp-page="/Jobs/Index" class="btn btn-outline-primary btn-sm">
+            View All Jobs
+        </a>
+    </div>
+
+    <!-- Empty / Jobs -->
+    @if (Model == null || !Model.Any())
+    {
+        <div class="bg-white rounded-4 p-5 text-center text-muted border border-2 border-secondary border-opacity-25">
+            No jobs found matching your filters.
+        </div>
+    }
+    else
+    {
+        <div class="row g-3">
+            @foreach (var item in Model)
+            {
+                <div class="job-card">
+                <div class="d-flex justify-content-between">
+                    <div class="d-flex gap-3">
+                        <div>
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <span class="text-primary fw-bold small" style="letter-spacing: 0.5px;">
+                                    @item.Organization?.CompanyName.ToUpper()
+                                </span>
+                                <span class="badge-type">@item.JobType</span>
+                            </div>
+
+                            <a href="javascript:void(0)" 
+                            class="job-title"
+                            onclick="openJobOverlay('@item.Title','https://via.placeholder.com/48','@item.Organization?.CompanyName','@item.JobType','@item.Address','@item.Salary','@(item.CreateDate?.ToString("MMM dd"))','@item.Description')">
+                                @item.Title
+                            </a>
+
+                            <div class="mt-2 d-flex gap-3 meta-text">
+                                <span><i class="bi bi-geo-alt-fill text-primary"></i> @item.Address</span>
+                                <span class="price-text">
+                                    <i class="bi bi-currency-dollar"></i> @item.Salary
+                                </span>
+                                <span><i class="bi bi-clock"></i> @(item.CreateDate.HasValue ? item.CreateDate.Value.ToString("MMM dd") : "N/A")</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="icon-group d-flex gap-3">
+                        <i class="bi bi-people"></i>
+                        <a asp-action="Edit" asp-route-id="@item.JobId" class="text-decoration-none"><i class="bi bi-pencil"></i></a>
+                        <i class="bi bi-trash"></i>
+                    </div>
+                </div>
+
+                <div class="row g-3 mt-3">
+                    <div class="col-6">
+                        <button class="btn btn-action-outline w-100"
+                            onclick="openJobOverlay('@item.Title','https://via.placeholder.com/48','@item.Organization?.CompanyName','@item.JobType','@item.Address','@item.Salary','@(item.CreateDate?.ToString("MMM dd"))','@item.Description')">
+                            Details
+                        </button>
+                    </div>
+                    <div class="col-6">
+                        <button class="btn btn-hiring-panel" id="status" onclick="openjs()">Hiring Panel</button>
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    }
+</div>
+@await Html.PartialAsync("~/Views/Jobs/Details.cshtml")
+@await Html.PartialAsync("~/Views/Admin/JobStats.cshtml")
+</body>
+
+
+
+
+

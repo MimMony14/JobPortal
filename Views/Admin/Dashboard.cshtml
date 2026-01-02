@@ -1,0 +1,99 @@
+@model IEnumerable<Job>
+@using System.Text.Json
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Admin Dashboard</title>
+</head>
+<body class="bg-light">
+<div class="d-flex">
+    <div class="text-white p-3" style="background-color: #4e73df; min-width:200px; min-height: 100vh;">
+        <h4 class="text-center mb-4">Admin</h4>
+        <a class="d-block text-white bg-white bg-opacity-25 fw-bold py-2 px-3 mb-1 text-decoration-none rounded">Dashboard</a>
+        <a class="d-block text-white py-2 px-3 mb-1 text-decoration-none"  asp-controller="Jobs" asp-action="Index">Job Listings</a>
+        <button class="d-block text-white py-2 px-3 mb-1 text-decoration-none" style="background-color: transparent; border: none; text-align: left;" data-bs-toggle="modal" data-bs-target="#addJobModal">New Job</button>
+        <div class="text-black">@await Html.PartialAsync("~/Views/Jobs/Create.cshtml", new Job())</div>
+
+        <a class="d-block text-white py-2 px-3 mb-1 text-decoration-none">Applicants</a>
+        <a class="d-block text-white py-2 px-3 mb-1 text-decoration-none">Organizations</a>
+    </div>
+
+    <div class="flex-fill p-4">
+        <h3>Job Portal Admin Dashboard</h3>
+
+        <div class="row g-3 mb-4">
+            <div class="col-md-3">
+                <div class="card bg-warning text-white text-center p-2">
+                    Total Jobs<br /><strong>@ViewBag.TotalJobs</strong>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-success text-white text-center p-2">
+                    Applications<br /><strong>@ViewBag.TotalApplications</strong>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-danger text-white text-center p-2">
+                    Total Applicants<br /><strong>@ViewBag.TotalApplicants</strong>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card bg-info text-white text-center p-2">
+                    Organizations<br /><strong>@ViewBag.TotalOrganizations</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-3">
+            <div class="col-md-8">
+                <div class="card p-3 h-100">
+                    <h5>Job Posting Trend</h5>
+                    <div class="flex-grow-1" style="min-height: 150px;"><canvas id="chart"></canvas></div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card p-3 h-100">
+                    <h5>Recent Activity</h5>
+                    <ul>
+                    @foreach (var j in ViewBag.RecentJobs)
+                    {
+                            <li class="mb-1">
+                            
+                                Job "@j.Title" posted by @j.Company
+                            
+                            </li>
+                    }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+const labels = @Html.Raw(JsonSerializer.Serialize(ViewBag.ChartLabels));
+const data = @Html.Raw(JsonSerializer.Serialize(ViewBag.ChartData));
+
+new Chart(document.getElementById('chart'), {
+    type: 'line',
+    data: {
+        labels: labels,
+        datasets: [{
+            data: data,
+            fill: true,
+            tension: 0.4
+        }]
+    },
+    options: {
+        plugins: { legend: { display: false } },
+        scales: { 
+            x: { title: { display: true, text: 'Day' } },
+            y: { beginAtZero: true, title: { display: true, text: 'New Jobs'} } 
+        }
+    }
+});
+</script>
+</body>
+</html>
