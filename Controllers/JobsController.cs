@@ -2,6 +2,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
+using JobPortal.Data;     // ⭐ DbContext
+using JobPortal.Models;   // ⭐ Job model
+
+
+
+
 public class JobsController : Controller
 {
     private readonly JobPortalContext _context;
@@ -10,7 +16,7 @@ public class JobsController : Controller
     {
         _context = context;
     }
-
+     
     // Display all jobs
     public IActionResult Index()
     {
@@ -45,7 +51,7 @@ public class JobsController : Controller
     }
     public IActionResult Create()
     {
-        ViewBag.Organizations = new SelectList(_context.Organizations, "OrganizationId", "CompanyName");
+        ViewBag.Organizations = new SelectList(_context.Organizations, "OrganizationId", "OrganizationName");
         return View();
     }
     // POST: handle form submission
@@ -60,7 +66,7 @@ public class JobsController : Controller
             _context.SaveChanges();
             return RedirectToAction("Index", "Jobs");
         }
-        ViewBag.Organizations = new SelectList(_context.Organizations, "OrganizationId", "CompanyName", job.OrganizationId);
+        ViewBag.Organizations = new SelectList(_context.Organizations, "OrganizationId", "OrganizationName", job.OrganizationId);
         return View(job);
     }
 

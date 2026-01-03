@@ -10,6 +10,10 @@ public class HomeController : Controller
     {
         return View();
     }
+    public IActionResult About()
+    {
+        return View();
+    }
     public IActionResult Admin()
     {
         return View();
@@ -18,26 +22,7 @@ public class HomeController : Controller
     {
         return View();
     }
-    [HttpPost]
-    public IActionResult Index(string Name)
-    {
-        if(Name == "Lamia" || Name == "lamia")
-        {
-            return RedirectToAction("Admin");
-        }
-        else if(Name == "job")
-        {
-            return RedirectToAction("Index","Jobs"); //redirected to JobsController
-        }
-        else if(Name == "org")
-        {
-            return RedirectToAction("OrgDash","Organization"); //redirected to OrganizationController
-        }
-        else
-        {
-            return RedirectToAction("Dashboard", "Admin");
-        }
-    }
+    
     public IActionResult Privacy()
     {
         return View();

@@ -5,10 +5,11 @@ USE JobPortal;
 -- First, create the Organizations table
 CREATE TABLE Organizations (
     OrganizationId INT IDENTITY(1,1) PRIMARY KEY,
-    CompanyName VARCHAR(200),
-	CompanyImage VARCHAR(500),
+    OrganizationName VARCHAR(200),
+	Password NVARCHAR(100) NOT NULL,
 	Website VARCHAR(100),
-	Email VARCHAR(50)
+	Email VARCHAR(50),
+    Role NVARCHAR(20) NOT NULL -- Org
 );
 
 -- Then, create the Jobs table with a foreign key
@@ -65,3 +66,24 @@ VALUES ('Software Engineer', 5, 'Develop and maintain software applications.', '
 ('Frontend Developer', 4, 'UI development', 'BSc in CSE', '1 year',
  'Frontend', '2026-03-01', 50000, 'Contract', 2,
  'Dhaka', 'Bangladesh', 'Dhaka', '2026-01-05', 'React,TypeScript,Tailwind');
+
+ // User table
+
+ CREATE TABLE Users (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    FullName NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(100) NOT NULL UNIQUE,
+    Password NVARCHAR(100) NOT NULL,
+    Role NVARCHAR(20) NOT NULL -- User 
+);
+
+// ApplyForm
+
+
+CREATE TABLE ApplyForms (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    FullName NVARCHAR(150) NOT NULL,
+    Email NVARCHAR(256) NOT NULL,
+    CoverLetter NVARCHAR(MAX) NULL,
+    ResumePath NVARCHAR(500) NULL
+);

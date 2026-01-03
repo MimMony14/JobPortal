@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using JobPortal.Data;     // ⭐ DbContext
+using JobPortal.Models;   // ⭐ Models
 public class AdminController : Controller
 {
     private readonly JobPortalContext _context;
@@ -13,7 +15,7 @@ public class AdminController : Controller
         ViewBag.Organizations = new SelectList(
             _context.Organizations.ToList(),
             "OrganizationId",
-            "CompanyName"
+            "OrganizationName"
         );
         var jobs = _context.Jobs.Include(j => j.Organization).ToList();
 
@@ -30,7 +32,8 @@ public class AdminController : Controller
             .Select(j => new
             {
                 Title = j.Title,
-                Company = j.Organization.CompanyName,
+                Company = j.Organization.OrganizationName
+,
                 Time = j.CreateDate
             })
             .ToList();

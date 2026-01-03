@@ -1,67 +1,106 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Http
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - JobPortal</title>
-    <script type="importmap"></script>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/JobPortal.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <style>
+        .btn-white-blue {
+            background-color: #ffffff;
+            color: #0d6efd;
+            border: 1px solid #ffffff;
+            font-weight: 600;
+            padding: 6px 14px;
+            margin-left: 8px;
+        }
+
+        .btn-white-blue:hover {
+            background-color: #e7f1ff;
+            color: #0a58ca;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">JobPortal</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - JobPortal - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+@{
+    var role = Context.Session.GetString("Role");
+}
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-expand-lg" style="background-color:#0d6efd;">
+    <div class="container">
+
+        <a class="navbar-brand fw-bold text-white"
+           asp-controller="Jobs"
+           asp-action="Index">
+            JobPortal
+        </a>
+
+        <!-- LEFT MENU -->
+        <div class="ms-auto d-flex align-items-center">
+            
+
+            <a class="btn btn-white-blue"
+               asp-controller="Home"
+               asp-action="About">
+                About Us
+            </a>
         </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+
+        <!-- RIGHT MENU -->
+       <!-- <div class="ms-auto d-flex align-items-center">-->
+            @if (string.IsNullOrEmpty(role))
+            {
+                <a class="btn btn-white-blue"
+                   asp-controller="Account"
+                   asp-action="Login">
+                    Sign In
+                </a>
+            }
+            else
+            {
+
+                <a class="btn btn-white-blue"
+                   asp-controller="Account"
+                   asp-action="Logout">
+                    Logout
+                </a>
+            }
+        </div>
+    </div>
+</nav>
+
+<!-- BODY -->
+<div class="container mt-4">
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            @TempData["SuccessMessage"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            @TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @RenderBody()
+</div>
+
+
+<footer class="text-center mt-5 mb-3" style="font-weight:600;">
+    © 2025 - JobPortal
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 
-<script>
-function goToStep2() {
-    document.getElementById('step1').classList.add('d-none');
-    document.getElementById('step2').classList.remove('d-none');
-    document.getElementById('step1Buttons').classList.add('d-none');
-    document.getElementById('step2Buttons').classList.remove('d-none');
-}
-function goToStep1() {
-    document.getElementById('step2').classList.add('d-none');
-    document.getElementById('step1').classList.remove('d-none');
-    document.getElementById('step2Buttons').classList.add('d-none');
-    document.getElementById('step1Buttons').classList.remove('d-none');
-}
-</script>

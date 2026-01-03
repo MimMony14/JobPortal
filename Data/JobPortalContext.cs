@@ -1,10 +1,16 @@
 using Microsoft.EntityFrameworkCore;
+using JobPortal.Models;
 
-public class JobPortalContext : DbContext
+namespace JobPortal.Data
 {
-    public JobPortalContext(DbContextOptions<JobPortalContext> options)
-        : base(options) { }
+    public class JobPortalContext : DbContext
+    {
+        public JobPortalContext(DbContextOptions<JobPortalContext> options)
+            : base(options) { }
 
-    public DbSet<Organization> Organizations { get; set; }
-    public DbSet<Job> Jobs { get; set; }
+        public DbSet<Organization> Organizations { get; set; }
+        public DbSet<Job> Jobs { get; set; }
+        public DbSet<User> Users { get; set; }
+        // public DbSet<Apply> ApplyForms { get; set; }
+    }
 }

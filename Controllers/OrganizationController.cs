@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using JobPortal.Data;     // ⭐ DbContext
+using JobPortal.Models;   // ⭐ Organization model
 public class OrganizationController : Controller
 {
     private readonly JobPortalContext _context;
