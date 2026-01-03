@@ -98,7 +98,7 @@ public IActionResult OrganizationRegister(Organization model)
 
                 TempData["SuccessMessage"] = $"👋 Welcome {user.FullName}! Login successful.";
 
-                return RedirectToAction("Index", "Dashboard");
+                return RedirectToAction("Applicant", "Home");
             }
 
             // ================= ORGANIZATION LOGIN =================

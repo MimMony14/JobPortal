@@ -35,7 +35,7 @@ public class HomeController : Controller
     {
         if(Name == "Lamia" || Name == "lamia")
         {
-            return RedirectToAction("Admin");
+            return RedirectToAction("Applicant");
         }
         else if(Name == "job")
         {
