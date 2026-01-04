@@ -3470,24 +3470,31 @@
     ]
   },
   "packageFolders": {
-    "F:\\Lamia IUBAT\\Users\\Lamia\\.nuget\\packages\\": {}
+    "C:\\Users\\User\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "F:\\Lamia IUBAT\\Users\\Lamia\\BACKUP\\JobPortal\\JobPortal.csproj",
+      "projectUniqueName": "E:\\JobPortal\\JobPortal.csproj",
       "projectName": "JobPortal",
-      "projectPath": "F:\\Lamia IUBAT\\Users\\Lamia\\BACKUP\\JobPortal\\JobPortal.csproj",
-      "packagesPath": "F:\\Lamia IUBAT\\Users\\Lamia\\.nuget\\packages\\",
-      "outputPath": "F:\\Lamia IUBAT\\Users\\Lamia\\BACKUP\\JobPortal\\obj\\",
+      "projectPath": "E:\\JobPortal\\JobPortal.csproj",
+      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+      "outputPath": "E:\\JobPortal\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "F:\\Lamia IUBAT\\Users\\Lamia\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net10.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -3542,7 +3549,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "F:\\Lamia IUBAT\\Users\\Lamia\\dotnet\\sdk\\10.0.101/PortableRuntimeIdentifierGraph.json",
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.100/PortableRuntimeIdentifierGraph.json",
         "packagesToPrune": {
           "Microsoft.AspNetCore": "(,10.0.32767]",
           "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

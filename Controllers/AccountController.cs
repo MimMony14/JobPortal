@@ -131,7 +131,7 @@ public IActionResult OrganizationRegister(Organization model)
         {
             HttpContext.Session.Clear();
             TempData["SuccessMessage"] = " You have logged out successfully.";
-            return RedirectToAction("Login");
+            return RedirectToAction("Index", "Home");
         }
     }
 
