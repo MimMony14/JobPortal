@@ -1,0 +1,50 @@
+@model List<JobPortal.Models.Apply>
+
+<h3 class="mb-3">Applicants List</h3>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+@foreach (var item in Model)
+{
+        <tr>
+            <td>@item.FullName</td>
+            <td>@item.Email</td>
+            <td>
+                <span class="badge 
+                    @(item.Status=="Accepted"?"bg-success":
+                      item.Status=="Rejected"?"bg-danger":"bg-warning")">
+                    @item.Status
+                </span>
+            </td>
+
+            <!-- Accept / Reject buttons -->
+            <td>
+                <a asp-action="UpdateStatus"
+                asp-route-id="@item.Id"
+                asp-route-status="Accepted"
+                class="btn btn-success btn-sm">Accept</a>
+
+                <a asp-action="UpdateStatus"
+                asp-route-id="@item.Id"
+                asp-route-status="Rejected"
+                class="btn btn-danger btn-sm">Reject</a>
+
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -67,10 +67,21 @@ VALUES
 // ApplyForm
 
 
-CREATE TABLE ApplyForms (
+CREATE TABLE ApplyForms
+(
     Id INT IDENTITY(1,1) PRIMARY KEY,
+
+    -- BASIC INFO
     FullName NVARCHAR(150) NOT NULL,
     Email NVARCHAR(256) NOT NULL,
-    CoverLetter NVARCHAR(MAX) NULL,
-    ResumePath NVARCHAR(500) NULL
+
+    -- RESUME (FILE + PATH)
+    ResumeData VARBINARY(MAX) NOT NULL,      -- ✅ File in DB
+    ResumeFileName NVARCHAR(255) NOT NULL,
+    ResumePath NVARCHAR(500) NOT NULL,       -- ✅ File path in DB
+
+    -- COVER LETTER (FILE + PATH)
+    CoverLetterData VARBINARY(MAX) NOT NULL, -- ✅ File in DB
+    CoverLetterFileName NVARCHAR(255) NOT NULL,
+    CoverLetterPath NVARCHAR(500) NOT NULL   -- ✅ File path in DB
 );

@@ -1,0 +1,87 @@
+@model JobPortal.Models.Apply
+
+@{
+    ViewData["Title"] = "Apply Job";
+}
+
+<div class="container d-flex justify-content-center mt-5">
+    <div class="card shadow-lg border-0 rounded-4 p-4"
+         style="max-width:900px;width:100%;">
+
+        <div class="text-center mb-4">
+            <h3 class="fw-bold">Apply for the Job</h3>
+            <p class="text-muted">Please fill all required information</p>
+        </div>
+
+        
+        @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success text-center">
+                    @TempData["SuccessMessage"]
+                </div>
+            }
+
+
+        <form asp-action="Apply"
+              method="post"
+              enctype="multipart/form-data">
+
+            @Html.AntiForgeryToken()
+
+            <!-- NAME & EMAIL -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label class="form-label">Full Name</label>
+                    <input asp-for="FullName"
+                           class="form-control"
+                           placeholder="Enter your full name"
+                           required />
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Email</label>
+                    <input asp-for="Email"
+                           class="form-control"
+                           placeholder="Enter your email"
+                           required />
+                </div>
+            </div>
+
+            <!-- RESUME -->
+            <div class="mb-3">
+                <label class="form-label">
+                    Resume (PDF)
+                </label>
+                <input asp-for="ResumeFile"
+                       type="file"
+                       class="form-control"
+                       accept=".pdf,.doc,.docx"
+                       required />
+            </div>
+
+            <!-- COVER LETTER -->
+            <div class="mb-4">
+                <label class="form-label">
+                    Cover Letter (PDF)
+                </label>
+                <input asp-for="CoverLetterFile"
+                       type="file"
+                       class="form-control"
+                       accept=".pdf,.doc,.docx"
+                       required />
+            </div>
+
+            <button type="submit"
+                    class="btn btn-primary w-100 py-2 fw-semibold">
+                Submit Application
+            </button>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger mt-3">
+                    @ViewBag.Error
+                </div>
+            }
+        </form>
+    </div>
+</div>

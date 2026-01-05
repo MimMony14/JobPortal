@@ -3,3 +3,10 @@ dotnet new mvc -n JobPortal
 cd JobPortal
 
 dotnet run   //  dotnet watch run
+
+
+
+
+taskkill /IM JobPortal.exe /F
+dotnet clean
+dotnet run

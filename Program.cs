@@ -1,3 +1,4 @@
+using JobPortal.Services;
 using JobPortal.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Session;
@@ -16,6 +17,8 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddDbContext<JobPortalContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("JobPortalConnection")));
+builder.Services.AddScoped<EmailService>();
+
 
 var app = builder.Build();
 

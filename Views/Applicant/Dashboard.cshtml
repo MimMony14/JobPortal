@@ -1,0 +1,115 @@
+@model IEnumerable<JobPortal.Models.Apply>
+
+<div class="container mt-4">
+
+    <h2 class="mb-4 fw-bold">My Dashboard</h2>
+
+    <!-- SUMMARY CARDS -->
+    <div class="row text-center mb-4">
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm border-0 bg-primary text-white">
+                <div class="card-body">
+                    <h6>Total Applications</h6>
+                    <h3>@ViewBag.Total</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm border-0 bg-warning text-dark">
+                <div class="card-body">
+                    <h6>Pending</h6>
+                    <h3>@ViewBag.Pending</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm border-0 bg-success text-white">
+                <div class="card-body">
+                    <h6>Accepted</h6>
+                    <h3>@ViewBag.Accepted</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <div class="card shadow-sm border-0 bg-danger text-white">
+                <div class="card-body">
+                    <h6>Rejected</h6>
+                    <h3>@ViewBag.Rejected</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- APPLICATION TABLE -->
+    <div class="card shadow-sm">
+        <div class="card-header fw-bold">
+            My Applications
+        </div>
+
+        <div class="card-body p-0">
+            <table class="table table-striped mb-0 text-center align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Date</th>
+                        <th>Resume</th>
+                        <th>Cover Letter</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                @if (Model.Any())
+                {
+                    foreach (var a in Model)
+                    {
+                        <tr>
+                            <td>@a.AppliedDate.ToShortDateString()</td>
+
+                            <td>
+                                <a class="btn btn-sm btn-outline-primary"
+                                   href="~/@a.ResumePath" target="_blank">
+                                    View
+                                </a>
+                            </td>
+
+                            <td>
+                                <a class="btn btn-sm btn-outline-info"
+                                   href="~/@a.CoverLetterPath" target="_blank">
+                                    View
+                                </a>
+                            </td>
+
+                            <td>
+                                @if (a.Status == "Accepted")
+                                {
+                                    <span class="badge bg-success">Accepted</span>
+                                }
+                                else if (a.Status == "Rejected")
+                                {
+                                    <span class="badge bg-danger">Rejected</span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-warning text-dark">Pending</span>
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="4" class="text-muted py-4">
+                            No applications found
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

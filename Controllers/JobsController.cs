@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-using JobPortal.Data;     // ⭐ DbContext
-using JobPortal.Models;   // ⭐ Job model
+using JobPortal.Data;     //  DbContext
+using JobPortal.Models;   //  Job model
 
 
 
@@ -18,19 +18,48 @@ public class JobsController : Controller
     }
      
     // Display all jobs
-    public IActionResult Index()
-    {
-        ViewBag.Organizations = new SelectList(
-            _context.Organizations.ToList(),
-            "OrganizationId",
-            "OrganizationName"
-        );
-        var jobs = _context.Jobs
-            .Include(j => j.Organization)
-            .ToList();
+    //public IActionResult Index()
+   // {
+       // ViewBag.Organizations = new SelectList(
+           /// _context.Organizations.ToList(),
+           /// "OrganizationId",
+           /// "OrganizationName"
+      //  );
+       // var jobs = _context.Jobs
+          //  .Include(j => j.Organization)
+          //  .ToList();
 
-        return View(jobs);
+       // return View(jobs);
+   // }
+   public IActionResult Index(string? keyword, List<string>? types)
+{
+    ViewBag.Organizations = new SelectList(
+        _context.Organizations.ToList(),
+        "OrganizationId",
+        "OrganizationName"
+    );
+
+    var jobs = _context.Jobs
+        .Include(j => j.Organization)
+        .AsQueryable();
+
+    if (!string.IsNullOrWhiteSpace(keyword))
+    {
+        jobs = jobs.Where(j =>
+            j.Title.Contains(keyword) ||
+            j.Address.Contains(keyword) ||
+            (j.Organization != null &&
+             j.Organization.OrganizationName.Contains(keyword))
+        );
     }
+
+    if (types != null && types.Any())
+    {
+        jobs = jobs.Where(j => types.Contains(j.JobType));
+    }
+
+    return View(jobs.ToList());
+}
 
     // Display job details
     public IActionResult Details(int id)

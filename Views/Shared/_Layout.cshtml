@@ -45,20 +45,26 @@
            asp-action="Index">
             JobPortal
         </a>
-
+        
         <!-- LEFT MENU -->
         <div class="ms-auto d-flex align-items-center">
+            <a class="btn btn-white-blue"
+            asp-controller="Home"
+            asp-action="About">
+                About Us
+            </a>
             <a class="btn btn-white-blue"
                    asp-controller="Home"
                    asp-action="Index">
                     Home
             </a>
 
+            
             <a class="btn btn-white-blue"
-               asp-controller="Home"
-               asp-action="About">
-                About Us
-            </a>
+                   asp-controller="Admin"
+                   asp-action="Login">
+                    Admin
+                </a>
         </div>
 
         <!-- RIGHT MENU -->

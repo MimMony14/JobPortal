@@ -11,6 +11,8 @@ namespace JobPortal.Data
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<Job> Jobs { get; set; }
         public DbSet<User> Users { get; set; }
-        // public DbSet<Apply> ApplyForms { get; set; }
+        public DbSet<Apply> ApplyForms { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
+
     }
 }
