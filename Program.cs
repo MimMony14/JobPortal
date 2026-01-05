@@ -14,6 +14,7 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddDbContext<JobPortalContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("JobPortalConnection")));

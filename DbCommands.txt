@@ -145,3 +145,21 @@ VALUES
 ('Lamia Jamal', 'lamia@example.com', 0x0, 'Resume_Lamia.pdf', '/resumes/Resume_Lamia.pdf', 0x0, 'CoverLetter_Lamia.pdf', '/coverletters/CoverLetter_Lamia.pdf', 'Pending'),
 ('John Doe', 'john@example.com', 0x0, 'Resume_John.pdf', '/resumes/Resume_John.pdf', 0x0, 'CoverLetter_John.pdf', '/coverletters/CoverLetter_John.pdf', 'Pending'),
 ('Jane Smith', 'jane@example.com', 0x0, 'Resume_Jane.pdf', '/resumes/Resume_Jane.pdf', 0x0, 'CoverLetter_Jane.pdf', '/coverletters/CoverLetter_Jane.pdf', 'Pending');
+
+
+---added a job fk in apply form
+
+-- Create a table to store bookmarks
+CREATE TABLE Bookmarks (
+    BookmarkId INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NOT NULL,
+    JobId INT NOT NULL,
+    CreatedAt DATETIME DEFAULT GETDATE(),
+    CONSTRAINT FK_Bookmarks_Users FOREIGN KEY (UserId)
+        REFERENCES Users(Id)
+        ON DELETE CASCADE,
+    CONSTRAINT FK_Bookmarks_Jobs FOREIGN KEY (JobId)
+        REFERENCES Jobs(JobId)
+        ON DELETE CASCADE,
+    CONSTRAINT UQ_User_Job UNIQUE (UserId, JobId) -- prevent duplicate bookmarks
+);

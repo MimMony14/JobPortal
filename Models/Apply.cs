@@ -7,6 +7,8 @@ namespace JobPortal.Models
     public class Apply
     {
         public int Id { get; set; }
+        public int JobId { get; set; } 
+        public virtual Job? Job { get; set; }    // navigation property
 
         // Applicant info
         public string FullName { get; set; } = "";

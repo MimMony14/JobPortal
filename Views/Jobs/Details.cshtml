@@ -13,8 +13,7 @@
                 <span><i class="bi bi-building"></i> <span id="overlayCompany"></span></span>
             </div>
             <!--<button class="btn btn-primary ms-auto">Apply Now</button>-->
-            <a asp-controller="Apply"
-                asp-action="Apply"
+            <a id="overlayApplyBtn" href="#"
                 class="btn btn-primary ms-auto">
                 Apply Now
             </a>
@@ -25,6 +24,7 @@
             <div><span>TYPE</span> <strong id="overlayType"></strong></div>
             <div><span>SALARY</span> <strong id="overlaySalary"></strong></div>
             <div><span>POSTED</span> <strong id="overlayDate"></strong></div>
+            <div><span>APPLY BY</span> <strong id="overlayLastDate"></strong></div>
         </div>
 
         <div class="mt-3">
@@ -46,15 +46,18 @@
 </div>
 
 <script>
-function openJobOverlay(title,company,type,address,salary,date,description){
+function openJobOverlay(jobId,title,company,type,address,salary,date,lastDate,description){
     document.getElementById('overlayJobTitle').textContent = title;
     document.getElementById('overlayCompany').textContent = company;
     document.getElementById('overlayType').textContent = type;
     document.getElementById('overlayAddress').textContent = address;
     document.getElementById('overlaySalary').textContent = salary;
     document.getElementById('overlayDate').textContent = date;
+    document.getElementById('overlayLastDate').textContent = lastDate;
     document.getElementById('overlayDescription').textContent = description;
     document.getElementById('jobDetailsOverlay').style.display = 'block';
+
+    document.getElementById('overlayApplyBtn').href = '/Apply/Apply?jobId=' + jobId;
 }
 
 function closeJobOverlay(){

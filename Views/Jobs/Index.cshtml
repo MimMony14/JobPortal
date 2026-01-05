@@ -1,4 +1,18 @@
-@model IEnumerable<Job>
+@model IEnumerable<JobPortal.Models.Job>
+<script>
+function toggleBookmark(jobId, elem) {
+    // Just toggle visually without any server call
+    if(elem.classList.contains('bi-bookmark')){
+        elem.classList.remove('bi-bookmark');
+        elem.classList.add('bi-bookmark-fill', 'text-warning');
+    } else {
+        elem.classList.remove('bi-bookmark-fill', 'text-warning');
+        elem.classList.add('bi-bookmark');
+    }
+}
+</script>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -129,7 +143,15 @@
         var role = Context.Session.GetString("Role");
         var isPrivileged = role == "Admin" || role == "Organization";
         var detailsColClass = isPrivileged ? "col-6" : "col-12";
-    }
+   
+    var userIdStr = Context.Session.GetString("UserId");
+    int.TryParse(userIdStr, out int currentUserId);
+
+    var bookmarkedJobIds = Model
+        .Where(j => j.Bookmarks.Any(b => b.UserId == currentUserId))
+        .Select(j => j.JobId)
+        .ToList();
+}
     <div class="row g-4">
 
         <!-- FILTER SIDEBAR -->
@@ -209,10 +231,10 @@
                             </div>
 
                             <a href="javascript:void(0)" 
-                            class="job-title"
-                            onclick="openJobOverlay('@item.Title','@item.Organization?.OrganizationName','@item.JobType','@item.Address','@item.Salary','@(item.CreateDate?.ToString("MMM dd"))','@(item.LastDateToApply?.ToString("MMM dd"))','@item.Description')">
-                                @item.Title
-                            </a>
+                                class="job-title"
+                                onclick="openJobOverlay(@item.JobId,'@item.Title','@item.Organization?.OrganizationName','@item.JobType','@item.Address','@item.Salary','@(item.CreateDate?.ToString("MMM dd"))','@(item.LastDateToApply?.ToString("MMM dd"))','@item.Description')">
+                                    @item.Title
+                                </a>
 
                             <div class="mt-2 d-flex gap-3 meta-text">
                                 <span><i class="bi bi-geo-alt-fill text-primary"></i> @item.Address</span>
@@ -223,19 +245,22 @@
                             </div>
                         </div>
                     </div>
-                    @if (isPrivileged){
-                    <div class="icon-group d-flex gap-3">
-                        <i class="bi bi-bookmark"></i>
-                        <a asp-action="Edit" asp-route-id="@item.JobId" class="text-decoration-none"><i class="bi bi-pencil"></i></a>
-                        <i class="bi bi-trash"></i>
-                    </div>
-                    }
+                   <div class="icon-group d-flex gap-3">
+    <i class="bi bi-bookmark" onclick="toggleBookmark(@job.JobId, this)"></i>
+
+    @if (isPrivileged){
+        <a asp-action="Edit" asp-route-id="@item.JobId" class="text-decoration-none">
+            <i class="bi bi-pencil"></i>
+        </a>
+        <i class="bi bi-trash"></i>
+    }
+</div>
                 </div>
 
                 <div class="row g-3 mt-3">
                     <div class="@detailsColClass">
-                        <button class="btn btn-action-outline w-100"
-                            onclick="openJobOverlay('@item.Title','@item.Organization?.OrganizationName','@item.JobType','@item.Address','@item.Salary','@(item.CreateDate?.ToString("MMM dd"))','@(item.LastDateToApply?.ToString("MMM dd"))','@item.Description')">
+                       <button class="btn btn-action-outline w-100"
+                            onclick="openJobOverlay(@item.JobId,'@item.Title','@item.Organization?.OrganizationName','@item.JobType','@item.Address','@item.Salary','@(item.CreateDate?.ToString("MMM dd"))','@(item.LastDateToApply?.ToString("MMM dd"))','@item.Description')">
                             Details
                         </button>
                     </div>
@@ -252,5 +277,6 @@
         }
     </div>
     @await Html.PartialAsync("Details")
-</body>
-</html>
+
+
+</body></html>

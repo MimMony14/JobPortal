@@ -13,6 +13,7 @@ namespace JobPortal.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Apply> ApplyForms { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<Bookmark> Bookmarks { get; set; }
 
     }
 }

@@ -31,9 +31,10 @@ namespace JobPortal.Controllers
 
         // ===== GET =====
         [HttpGet]
-        public IActionResult Apply()
+        public IActionResult Apply(int jobId)
         {
-            return View();
+            var model = new Apply { JobId = jobId };
+            return View(model);
         }
 
         // ===== POST: APPLICANT SUBMIT =====

@@ -1,44 +1,43 @@
-@model IEnumerable<Job>
+@model JobPortal.Models.Job
+<div id="Overlay-@Model.JobId" style="display:none; position:fixed; inset:0; background:rgba(15,23,42,0.3); z-index:1000; backdrop-filter: blur(4px);">
+    <div class="bg-white shadow-lg rounded-24 p-4 mx-auto" style="max-width:800px; margin-top:60px; position:relative;">
 
-<style>
-    .rounded-24 { border-radius: 24px !important; }
-    .bg-green-soft { background-color: #f0fdf4; color: #16a34a; border: 1px solid #dcfce7; }
-    .bg-blue-soft { background-color: #f0f9ff; color: #0284c7; border: 1px solid #e0f2fe; }
-    .bg-purple-soft { background-color: #faf5ff; color: #9333ea; border: 1px solid #f3e8ff; }
-</style>
-
-<div id="Overlay" style="display:none; position:fixed; inset:0; background:rgba(15, 23, 42, 0.3); z-index:1000; backdrop-filter: blur(4px);">
-    <div id="contents" class="bg-white shadow-lg rounded-24 p-4 mx-auto" style="max-width: 800px; margin-top: 60px; position: relative;">
-        
         <div class="d-flex justify-content-between align-items-center mb-4">
-            <h4 class="fw-bold m-0" style="color: #0f172a;">Applicants for Senior Frontend Engineer</h4>
-            <button class="btn-close shadow-none" onclick="closejs()"></button>
+            <h4 class="fw-bold m-0 text-dark">Applicants for @Model.Title</h4>
+            <button class="btn-close shadow-none" onclick="closeOverlay(@Model.JobId)"></button>
         </div>
 
         <div class="row g-3 mb-4">
             <div class="col-4">
-                <div class="p-3 rounded-24 bg-green-soft">
+                <div class="p-3 rounded-24 bg-green-soft text-center">
                     <small class="fw-bold d-block mb-1 opacity-75 small">TOTAL</small>
-                    <h2 class="fw-bold m-0">1</h2>
+                    <h2 class="fw-bold m-0">@(Model.ApplyForms?.Count() ?? 0)</h2>
                 </div>
             </div>
             <div class="col-4">
-                <div class="p-3 rounded-24 bg-blue-soft">
+                <div class="p-3 rounded-24 bg-blue-soft text-center">
                     <small class="fw-bold d-block mb-1 opacity-75 small">PENDING</small>
-                    <h2 class="fw-bold m-0">1</h2>
+                    <h2 class="fw-bold m-0">@(Model.ApplyForms?.Count(a => a.Status == "Pending") ?? 0)</h2>
                 </div>
             </div>
             <div class="col-4">
-                <div class="p-3 rounded-24 bg-purple-soft">
+                <div class="p-3 rounded-24 bg-purple-soft text-center">
                     <small class="fw-bold d-block mb-1 opacity-75 small">ACTION RATE</small>
-                    <h2 class="fw-bold m-0">100%</h2>
+                    <h2 class="fw-bold m-0">
+                        @{
+                            var total = Model.ApplyForms?.Count() ?? 0;
+                            var processed = Model.ApplyForms?.Count(a => a.Status == "Accepted" || a.Status == "Rejected") ?? 0;
+                            var rate = total == 0 ? 0 : (processed * 100) / total;
+                        }
+                        @rate%
+                    </h2>
                 </div>
             </div>
         </div>
 
-        <div class="border rounded-24 overflow-hidden" style="border-color: #f1f5f9 !important;">
+        <div class="border rounded-24 overflow-hidden" style="border-color:#f1f5f9 !important;">
             <table class="table mb-0">
-                <thead style="background-color: #f8fafc;">
+                <thead style="background-color:#f8fafc;">
                     <tr class="text-muted small">
                         <th class="ps-4 py-3 border-0">APPLICANT</th>
                         <th class="py-3 border-0">DETAILS</th>
@@ -47,33 +46,60 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @if (Model == null || !Model.Any())
+                    @if (Model.ApplyForms == null || !Model.ApplyForms.Any())
                     {
                         <tr>
-                            <td colspan="3" class="text-center py-5 border-0">
+                            <td colspan="4" class="text-center py-5 border-0">
                                 <h5 class="text-muted fst-italic opacity-50">No applications yet.</h5>
                             </td>
                         </tr>
                     }
                     else
                     {
-                        @foreach (var app in Model)
+                        @foreach(var app in Model.ApplyForms)
                         {
                             <tr class="align-middle border-bottom border-light">
                                 <td class="ps-4 py-3">
-                                    <div class="fw-bold text-dark">lj</div>
-                                    <div class="small text-muted">lj@g.com</div>
+                                    <div class="fw-bold text-dark">@app.FullName</div>
+                                    <div class="small text-muted">@app.Email</div>
                                 </td>
                                 <td class="py-3">
-                                    <span class="btn text-uppercase px-2" style="font-size: 10px;"><a asp-controller="Home" asp-action="Index">Show</a></span>
+                                    <span class="btn text-uppercase px-2" style="font-size:10px;">
+                                        <a href="@Url.Content("~/" + app.ResumePath)" target="_blank">Show</a>
+                                    </span>
                                 </td>
                                 <td class="py-3">
-                                    <span class="btn text-uppercase px-2" style="font-size: 10px;">Pending</span>
+                                    <span class="badge 
+                                        @(app.Status=="Accepted"?"bg-success":
+                                          app.Status=="Rejected"?"bg-danger":"bg-warning")">
+                                        @app.Status
+                                    </span>
                                 </td>
                                 <td class="pe-4 py-3 text-end">
                                     <div class="d-flex justify-content-end gap-2">
-                                        <i class="bi bi-check-circle text-success fs-5 cursor-pointer"></i>
-                                        <i class="bi bi-x-circle text-danger fs-5 cursor-pointer"></i>
+                                        @* SHOW ACCEPT ICON ONLY IF NOT ACCEPTED *@
+                                        @if(app.Status != "Rejected")
+                                        {
+                                            <a asp-action="UpdateStatus"
+                                               asp-route-id="@app.Id"
+                                               asp-route-status="Accepted"
+                                               asp-route-orgId="@Model.OrganizationId"
+                                               title="Accept">
+                                                <i class="bi bi-check-circle text-success fs-5 cursor-pointer"></i>
+                                            </a>
+                                        }
+
+                                        @* SHOW REJECT ICON ONLY IF NOT REJECTED *@
+                                        @if(app.Status != "Accepted")
+                                        {
+                                            <a asp-action="UpdateStatus"
+                                               asp-route-id="@app.Id"
+                                               asp-route-status="Rejected"
+                                               asp-route-orgId="@Model.OrganizationId"
+                                               title="Reject">
+                                                <i class="bi bi-x-circle text-danger fs-5 cursor-pointer"></i>
+                                            </a>
+                                        }
                                     </div>
                                 </td>
                             </tr>
@@ -82,17 +108,21 @@
                 </tbody>
             </table>
         </div>
+
     </div>
 </div>
 
 <script>
-function openjs() {
-    document.getElementById('Overlay').style.display = 'block';
+function openOverlay(jobId) {
+    document.getElementById('Overlay-' + jobId).style.display = 'block';
 }
-function closejs() {
-    document.getElementById('Overlay').style.display = 'none';
+function closeOverlay(jobId) {
+    document.getElementById('Overlay-' + jobId).style.display = 'none';
 }
-document.getElementById('Overlay').addEventListener('click', function(e){
-    if(e.target === this) closejs();
+// Close if clicking outside
+document.querySelectorAll('[id^="Overlay-"]').forEach(function(overlay){
+    overlay.addEventListener('click', function(e){
+        if(e.target === overlay) overlay.style.display = 'none';
+    });
 });
 </script>

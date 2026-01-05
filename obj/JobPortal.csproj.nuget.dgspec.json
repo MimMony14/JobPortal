@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "F:\\Lamia IUBAT\\Users\\Lamia\\BACKUP\\JobPortal\\JobPortal.csproj": {}
+    "F:\\Lamia IUBAT\\Users\\Lamia\\BACKUP\\project\\JobPortal\\JobPortal.csproj": {}
   },
   "projects": {
-    "F:\\Lamia IUBAT\\Users\\Lamia\\BACKUP\\JobPortal\\JobPortal.csproj": {
+    "F:\\Lamia IUBAT\\Users\\Lamia\\BACKUP\\project\\JobPortal\\JobPortal.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "F:\\Lamia IUBAT\\Users\\Lamia\\BACKUP\\JobPortal\\JobPortal.csproj",
+        "projectUniqueName": "F:\\Lamia IUBAT\\Users\\Lamia\\BACKUP\\project\\JobPortal\\JobPortal.csproj",
         "projectName": "JobPortal",
-        "projectPath": "F:\\Lamia IUBAT\\Users\\Lamia\\BACKUP\\JobPortal\\JobPortal.csproj",
+        "projectPath": "F:\\Lamia IUBAT\\Users\\Lamia\\BACKUP\\project\\JobPortal\\JobPortal.csproj",
         "packagesPath": "F:\\Lamia IUBAT\\Users\\Lamia\\.nuget\\packages\\",
-        "outputPath": "F:\\Lamia IUBAT\\Users\\Lamia\\BACKUP\\JobPortal\\obj\\",
+        "outputPath": "F:\\Lamia IUBAT\\Users\\Lamia\\BACKUP\\project\\JobPortal\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "F:\\Lamia IUBAT\\Users\\Lamia\\AppData\\Roaming\\NuGet\\NuGet.Config"

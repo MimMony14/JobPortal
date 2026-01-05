@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "yDAVX292U2I=",
+  "dgSpecHash": "SSxkiBURqHk=",
   "success": true,
-  "projectFilePath": "F:\\Lamia IUBAT\\Users\\Lamia\\BACKUP\\JobPortal\\JobPortal.csproj",
+  "projectFilePath": "F:\\Lamia IUBAT\\Users\\Lamia\\BACKUP\\project\\JobPortal\\JobPortal.csproj",
   "expectedPackageFiles": [
     "F:\\Lamia IUBAT\\Users\\Lamia\\.nuget\\packages\\azure.core\\1.47.1\\azure.core.1.47.1.nupkg.sha512",
     "F:\\Lamia IUBAT\\Users\\Lamia\\.nuget\\packages\\azure.identity\\1.14.2\\azure.identity.1.14.2.nupkg.sha512",

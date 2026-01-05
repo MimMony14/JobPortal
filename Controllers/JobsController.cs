@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
-
+using Microsoft.AspNetCore.Authorization;
 using JobPortal.Data;     //  DbContext
 using JobPortal.Models;   //  Job model
 
@@ -41,6 +41,7 @@ public class JobsController : Controller
 
     var jobs = _context.Jobs
         .Include(j => j.Organization)
+        .Include(j => j.Bookmarks) 
         .AsQueryable();
 
     if (!string.IsNullOrWhiteSpace(keyword))
@@ -98,5 +99,36 @@ public class JobsController : Controller
         ViewBag.Organizations = new SelectList(_context.Organizations, "OrganizationId", "OrganizationName", job.OrganizationId);
         return View(job);
     }
+    [HttpPost]
+[ValidateAntiForgeryToken]
+public IActionResult BookmarkToggle([FromBody] BookmarkToggleModel model)
+{
+    var userIdStr = HttpContext.Session.GetString("UserId");
+    if (!int.TryParse(userIdStr, out int userId))
+        return Json(new { success = false });
+
+    var bookmark = _context.Bookmarks
+        .FirstOrDefault(b => b.JobId == model.JobId && b.UserId == userId);
+
+    if (bookmark == null)
+    {
+        // Add bookmark
+        _context.Bookmarks.Add(new Bookmark { JobId = model.JobId, UserId = userId });
+    }
+    else
+    {
+        // Remove bookmark
+        _context.Bookmarks.Remove(bookmark);
+    }
+
+    _context.SaveChanges();
+    return Json(new { success = true });
+}
+
+// DTO for AJAX
+public class BookmarkToggleModel
+{
+    public int JobId { get; set; }
+}
 
 }

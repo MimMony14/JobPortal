@@ -199,7 +199,7 @@ body { background-color: #f8faff; font-family: 'Inter', 'Segoe UI', sans-serif; 
             @foreach (var item in Model)
             {
                 <div class="job-card">
-                <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between">
                     <div class="d-flex gap-3">
                         <div>
                             <div class="d-flex align-items-center gap-2 mb-1">
@@ -230,9 +230,9 @@ body { background-color: #f8faff; font-family: 'Inter', 'Segoe UI', sans-serif; 
                         <a asp-action="Edit" asp-route-id="@item.JobId" class="text-decoration-none"><i class="bi bi-pencil"></i></a>
                         <i class="bi bi-trash"></i>
                     </div>
-                </div>
+                    </div>
 
-                <div class="row g-3 mt-3">
+                    <div class="row g-3 mt-3">
                     <div class="col-6">
                         <button class="btn btn-action-outline w-100"
                             onclick="openJobOverlay('@item.Title','@item.Organization?.OrganizationName','@item.JobType','@item.Address','@item.Salary','@(item.CreateDate?.ToString("MMM dd"))','@item.Description')">
@@ -240,7 +240,10 @@ body { background-color: #f8faff; font-family: 'Inter', 'Segoe UI', sans-serif; 
                         </button>
                     </div>
                     <div class="col-6">
-                        <button class="btn btn-hiring-panel" onclick="openjs()">Hiring Panel</button>
+                    <button class="btn btn-hiring-panel w-100" type="button" onclick="openOverlay(@item.JobId)">
+                                Hiring Panel
+                            </button>
+@await Html.PartialAsync("~/Views/Admin/JobStats.cshtml",item)
                     </div>
                 </div>
             </div>
@@ -249,7 +252,6 @@ body { background-color: #f8faff; font-family: 'Inter', 'Segoe UI', sans-serif; 
     }
 </div>
 @await Html.PartialAsync("~/Views/Jobs/Details.cshtml")
-@await Html.PartialAsync("~/Views/Admin/JobStats.cshtml")
 </body>
 
 

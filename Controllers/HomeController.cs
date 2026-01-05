@@ -17,19 +17,7 @@ public class HomeController : Controller
     }
     public IActionResult Index()
     {
-        string filesPath = Path.Combine(_env.WebRootPath, "files");
-
-        if (!Directory.Exists(filesPath))
-        {
-            return Content("Folder not found: " + filesPath);
-        }
-
-        List<string> pdfNames = Directory
-            .GetFiles(filesPath, "*.pdf")
-            .Select(Path.GetFileName)
-            .ToList();
-
-        //return View(pdfNames);
+        
         return RedirectToAction("Index", "Jobs");
     }
     public IActionResult Admin()
