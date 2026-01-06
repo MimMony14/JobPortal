@@ -1,12 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.AspNetCore.Authorization;
-using JobPortal.Data;     //  DbContext
-using JobPortal.Models;   //  Job model
-
-
-
+using JobPortal.Data;
+using JobPortal.Models;
 
 public class JobsController : Controller
 {
@@ -16,75 +12,62 @@ public class JobsController : Controller
     {
         _context = context;
     }
-     
-    // Display all jobs
-    //public IActionResult Index()
-   // {
-       // ViewBag.Organizations = new SelectList(
-           /// _context.Organizations.ToList(),
-           /// "OrganizationId",
-           /// "OrganizationName"
-      //  );
-       // var jobs = _context.Jobs
-          //  .Include(j => j.Organization)
-          //  .ToList();
 
-       // return View(jobs);
-   // }
-   public IActionResult Index(string? keyword, List<string>? types)
-{
-    ViewBag.Organizations = new SelectList(
-        _context.Organizations.ToList(),
-        "OrganizationId",
-        "OrganizationName"
-    );
-
-    var jobs = _context.Jobs
-        .Include(j => j.Organization)
-        .Include(j => j.Bookmarks) 
-        .AsQueryable();
-
-    if (!string.IsNullOrWhiteSpace(keyword))
+    // Display all jobs with optional keyword and type filters
+    public IActionResult Index(string? keyword, List<string>? types)
     {
-        jobs = jobs.Where(j =>
-            j.Title.Contains(keyword) ||
-            j.Address.Contains(keyword) ||
-            (j.Organization != null &&
-             j.Organization.OrganizationName.Contains(keyword))
+        ViewBag.Organizations = new SelectList(
+            _context.Organizations.ToList(),
+            "OrganizationId",
+            "OrganizationName"
         );
-    }
 
-    if (types != null && types.Any())
-    {
-        jobs = jobs.Where(j => types.Contains(j.JobType));
-    }
+        var jobs = _context.Jobs
+            .Include(j => j.Organization)
+            .Include(j => j.Bookmarks)
+            .AsQueryable();
 
-    return View(jobs.ToList());
-}
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            jobs = jobs.Where(j =>
+                j.Title.Contains(keyword) ||
+                j.Address.Contains(keyword) ||
+                (j.Organization != null &&
+                 j.Organization.OrganizationName.Contains(keyword))
+            );
+        }
+
+        if (types != null && types.Any())
+        {
+            jobs = jobs.Where(j => types.Contains(j.JobType));
+        }
+
+        return View(jobs.ToList());
+    }
 
     // Display job details
     public IActionResult Details(int id)
     {
-        var job = _context.Jobs.Include(j => j.Organization).FirstOrDefault(j => j.JobId == id);
-        if (job == null) 
-        {
-            return NotFound();
-        }
+        var job = _context.Jobs.Include(j => j.Organization)
+                               .FirstOrDefault(j => j.JobId == id);
+        if (job == null) return NotFound();
 
-        // Split tags into a list if stored as comma-separated string
-        var tags = string.IsNullOrEmpty(job.Tags) ? new List<string>() : job.Tags.Split(',').ToList();
+        var tags = string.IsNullOrEmpty(job.Tags)
+            ? new List<string>()
+            : job.Tags.Split(',').ToList();
 
-        // Pass tags to ViewBag
         ViewBag.Tags = tags;
-
         return View(job);
     }
+
+    // GET: Create Job
     public IActionResult Create()
     {
         ViewBag.Organizations = new SelectList(_context.Organizations, "OrganizationId", "OrganizationName");
         return View();
     }
-    // POST: handle form submission
+
+    // POST: Create Job
     [HttpPost]
     [ValidateAntiForgeryToken]
     public IActionResult Create(Job job)
@@ -96,39 +79,53 @@ public class JobsController : Controller
             _context.SaveChanges();
             return RedirectToAction("Index", "Jobs");
         }
+
         ViewBag.Organizations = new SelectList(_context.Organizations, "OrganizationId", "OrganizationName", job.OrganizationId);
         return View(job);
     }
-    [HttpPost]
-[ValidateAntiForgeryToken]
-public IActionResult BookmarkToggle([FromBody] BookmarkToggleModel model)
+
+    // Toggle bookmark for a job (only for logged-in users)
+// Toggle bookmark for a job
+[HttpPost]
+public IActionResult Toggle([FromBody] int jobId)
 {
-    var userIdStr = HttpContext.Session.GetString("UserId");
-    if (!int.TryParse(userIdStr, out int userId))
-        return Json(new { success = false });
+    int? userId = HttpContext.Session.GetInt32("UserId"); // get logged-in user
+    if (userId == null) return Json(new { bookmarked = false, error = "Not logged in" });
 
-    var bookmark = _context.Bookmarks
-        .FirstOrDefault(b => b.JobId == model.JobId && b.UserId == userId);
+    var existing = _context.Bookmarks
+        .FirstOrDefault(b => b.UserId == userId.Value && b.JobId == jobId);
 
-    if (bookmark == null)
+    if (existing == null)
     {
-        // Add bookmark
-        _context.Bookmarks.Add(new Bookmark { JobId = model.JobId, UserId = userId });
+        _context.Bookmarks.Add(new Bookmark
+        {
+            UserId = userId.Value,
+            JobId = jobId,
+            CreatedAt = DateTime.Now
+        });
+        _context.SaveChanges();
+        return Json(new { bookmarked = true });
     }
     else
     {
-        // Remove bookmark
-        _context.Bookmarks.Remove(bookmark);
+        _context.Bookmarks.Remove(existing);
+        _context.SaveChanges();
+        return Json(new { bookmarked = false });
     }
-
-    _context.SaveChanges();
-    return Json(new { success = true });
 }
 
-// DTO for AJAX
-public class BookmarkToggleModel
+public IActionResult ShowBookmarks()
 {
-    public int JobId { get; set; }
-}
+    int? userId = HttpContext.Session.GetInt32("UserId");
+    if (userId == null)
+        return RedirectToAction("Login", "Account"); // not logged in
 
+    var jobs = _context.Jobs
+        .Include(j => j.Organization)
+        .Include(j => j.Bookmarks)
+        .Where(j => j.Bookmarks.Any(b => b.UserId == userId.Value))
+        .ToList();
+
+    return View("~/Views/Applicant/ShowBookmarks.cshtml",jobs);
+}
 }

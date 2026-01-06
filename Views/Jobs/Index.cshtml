@@ -1,17 +1,26 @@
 @model IEnumerable<JobPortal.Models.Job>
 <script>
 function toggleBookmark(jobId, elem) {
-    // Just toggle visually without any server call
-    if(elem.classList.contains('bi-bookmark')){
-        elem.classList.remove('bi-bookmark');
-        elem.classList.add('bi-bookmark-fill', 'text-warning');
-    } else {
-        elem.classList.remove('bi-bookmark-fill', 'text-warning');
-        elem.classList.add('bi-bookmark');
-    }
+    fetch('/Jobs/Toggle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: jobId  // number directly
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.bookmarked) {
+            elem.classList.remove('bi-bookmark');
+            elem.classList.add('bi-bookmark-fill', 'text-warning');
+        } else {
+            elem.classList.remove('bi-bookmark-fill', 'text-warning');
+            elem.classList.add('bi-bookmark');
+        }
+    })
+    .catch(err => console.error(err));
 }
-</script>
 
+
+</script>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -144,14 +153,14 @@ function toggleBookmark(jobId, elem) {
         var isPrivileged = role == "Admin" || role == "Organization";
         var detailsColClass = isPrivileged ? "col-6" : "col-12";
    
-    var userIdStr = Context.Session.GetString("UserId");
-    int.TryParse(userIdStr, out int currentUserId);
+        int? userId = Context.Session.GetInt32("UserId") ?? 0;
+        var bookmarkedJobIds = Model
+            .Where(j => j.Bookmarks.Any(b => b.UserId == userId))
+            .Select(j => j.JobId)
+            .ToList();
+    }
 
-    var bookmarkedJobIds = Model
-        .Where(j => j.Bookmarks.Any(b => b.UserId == currentUserId))
-        .Select(j => j.JobId)
-        .ToList();
-}
+
     <div class="row g-4">
 
         <!-- FILTER SIDEBAR -->
@@ -246,15 +255,18 @@ function toggleBookmark(jobId, elem) {
                         </div>
                     </div>
                    <div class="icon-group d-flex gap-3">
-    <i class="bi bi-bookmark" onclick="toggleBookmark(@job.JobId, this)"></i>
-
-    @if (isPrivileged){
-        <a asp-action="Edit" asp-route-id="@item.JobId" class="text-decoration-none">
-            <i class="bi bi-pencil"></i>
-        </a>
-        <i class="bi bi-trash"></i>
-    }
-</div>
+                     @if (role == "User"){
+                        <i class="bi @(bookmarkedJobIds.Contains(item.JobId)  ? "bi-bookmark-fill text-warning"   : "bi-bookmark")"
+                            onclick="toggleBookmark(@item.JobId, this)">
+                        </i>
+                    }
+                    @if (isPrivileged){
+                        <a asp-action="Edit" asp-route-id="@item.JobId" class="text-decoration-none">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <i class="bi bi-trash"></i>
+                    }
+                </div>
                 </div>
 
                 <div class="row g-3 mt-3">

@@ -163,3 +163,10 @@ CREATE TABLE Bookmarks (
         ON DELETE CASCADE,
     CONSTRAINT UQ_User_Job UNIQUE (UserId, JobId) -- prevent duplicate bookmarks
 );
+ALTER TABLE ApplyForms
+ADD JobId INT NULL;
+
+ALTER TABLE ApplyForms
+ADD CONSTRAINT FK_Apply_Jobs
+FOREIGN KEY (JobId) REFERENCES Jobs(JobId)
+ON DELETE SET NULL;
