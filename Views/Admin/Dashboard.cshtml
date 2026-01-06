@@ -19,8 +19,17 @@
         View Applicants
         </a>
 
-        <a class="d-block text-white py-2 px-3 mb-1 text-decoration-none">Applicants</a>
-        <a class="d-block text-white py-2 px-3 mb-1 text-decoration-none">Organizations</a>
+        <a asp-controller="Users"
+        asp-action="Index"
+        class="d-block text-white py-2 px-3 mb-1 text-decoration-none">
+        Applicants
+        </a>
+
+        <a asp-controller="Organizations"
+        asp-action="Index"
+        class="d-block text-white py-2 px-3 mb-1 text-decoration-none">
+        Organizations
+        </a>
     </div>
 
     <div class="flex-fill p-4">

@@ -19,125 +19,165 @@ build_property.TargetFrameworkIdentifier = .NETCoreApp
 build_property.TargetFrameworkVersion = v10.0
 build_property.RootNamespace = JobPortal
 build_property.RootNamespace = JobPortal
-build_property.ProjectDir = F:\Lamia IUBAT\Users\Lamia\BACKUP\project\JobPortal\
+build_property.ProjectDir = D:\JobPortal\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = F:\Lamia IUBAT\Users\Lamia\BACKUP\project\JobPortal
+build_property.MSBuildProjectDirectory = D:\JobPortal
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Account/Login.cshtml]
+[D:/JobPortal/Views/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Account/OrganizationRegister.cshtml]
+[D:/JobPortal/Views/Account/OrganizationRegister.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxPcmdhbml6YXRpb25SZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Account/UserRegister.cshtml]
+[D:/JobPortal/Views/Account/UserRegister.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxVc2VyUmVnaXN0ZXIuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Admin/Applicants.cshtml]
+[D:/JobPortal/Views/Admin/Applicants.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQXBwbGljYW50cy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Admin/Dashboard.cshtml]
+[D:/JobPortal/Views/Admin/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Admin/JobStats.cshtml]
+[D:/JobPortal/Views/Admin/JobStats.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSm9iU3RhdHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Admin/Login.cshtml]
+[D:/JobPortal/Views/Admin/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTG9naW4uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Applicant/Dashboard.cshtml]
+[D:/JobPortal/Views/Applicant/Dashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYW50XERhc2hib2FyZC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Applicant/Notifications.cshtml]
+[D:/JobPortal/Views/Applicant/Notifications.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYW50XE5vdGlmaWNhdGlvbnMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Applicant/ShowBookmarks.cshtml]
+[D:/JobPortal/Views/Applicant/ShowBookmarks.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbGljYW50XFNob3dCb29rbWFya3MuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Apply/ApplicantDashboard.cshtml]
+[D:/JobPortal/Views/Apply/ApplicantDashboard.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbHlcQXBwbGljYW50RGFzaGJvYXJkLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Apply/Apply.cshtml]
+[D:/JobPortal/Views/Apply/Apply.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQXBwbHlcQXBwbHkuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Home/About.cshtml]
+[D:/JobPortal/Views/Home/About.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBYm91dC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Home/Admin.cshtml]
+[D:/JobPortal/Views/Home/Admin.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBZG1pbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Home/Applicant.cshtml]
+[D:/JobPortal/Views/Home/Applicant.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxBcHBsaWNhbnQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Home/Index.cshtml]
+[D:/JobPortal/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Home/Privacy.cshtml]
+[D:/JobPortal/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Jobs/Create.cshtml]
+[D:/JobPortal/Views/Jobs/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9ic1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Jobs/Details.cshtml]
+[D:/JobPortal/Views/Jobs/Details.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9ic1xEZXRhaWxzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Jobs/Index.cshtml]
+[D:/JobPortal/Views/Jobs/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9ic1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/JobPortal/Views/Jobs/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9ic1xJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Jobs/JobEdit.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSm9ic1xKb2JFZGl0LmNzaHRtbA==
+[D:/JobPortal/Views/Organizations/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pemF0aW9uc1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Organization/OrgDash.cshtml]
+[D:/JobPortal/Views/Organizations/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pemF0aW9uc1xEZWxldGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/JobPortal/Views/Organizations/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pemF0aW9uc1xEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/JobPortal/Views/Organizations/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pemF0aW9uc1xFZGl0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/JobPortal/Views/Organizations/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pemF0aW9uc1xJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/JobPortal/Views/Organization/OrgDash.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcT3JnYW5pemF0aW9uXE9yZ0Rhc2guY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Shared/Error.cshtml]
+[D:/JobPortal/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Shared/_PostCreate.cshtml]
+[D:/JobPortal/Views/Shared/_PostCreate.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Qb3N0Q3JlYXRlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Shared/_ValidationScriptsPartial.cshtml]
+[D:/JobPortal/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/_ViewImports.cshtml]
+[D:/JobPortal/Views/Users/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcQ3JlYXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/JobPortal/Views/Users/Delete.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcRGVsZXRlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/JobPortal/Views/Users/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcRGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/JobPortal/Views/Users/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/JobPortal/Views/Users/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcVXNlcnNcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/JobPortal/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/_ViewStart.cshtml]
+[D:/JobPortal/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[F:/Lamia IUBAT/Users/Lamia/BACKUP/project/JobPortal/Views/Shared/_Layout.cshtml]
+[D:/JobPortal/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-cv5wdao8z3

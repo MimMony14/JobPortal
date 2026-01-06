@@ -135,40 +135,23 @@ body { background-color: #f8faff; font-family: 'Inter', 'Segoe UI', sans-serif; 
                 Hire Top Talent <span class="text-primary">Faster</span>
             </h1>
         </div>
-
-        <!-- Search Bar -->
-        <form class="d-flex justify-content-center">
-            <div class="input-group input-group-lg w-75 shadow-sm rounded-pill overflow-hidden">
-
-                <span class="input-group-text bg-white border-0">
-                    <i class="bi bi-search text-muted"></i>
-                </span>
-                <input type="text"
-                       name="keyword"
-                       class="form-control border-0"
-                       placeholder="Design, Engineering, Product">
-
-                <span class="input-group-text bg-white border-0">
-                    <i class="bi bi-geo-alt text-muted"></i>
-                </span>
-                <input type="text"
-                       name="location"
-                       class="form-control border-0"
-                       placeholder="San Francisco, Remote">
-
-                <button class="btn btn-primary px-4 rounded-pill">
-                    Search
-                </button>
-
-            </div>
-        </form>
-
     </div>
 
-    <!-- Active Recruitment -->
-    <div class="d-flex justify-content-between align-items-center mt-5 mb-3">
-        <h6 class="fw-semibold mb-0">Your Active Recruitment</h6>
-        <a class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addJobModal">New Job </a>
+    <div class="d-flex justify-content-between align-items-center mt-5 mb-3 flex-wrap">
+        <!-- Left side: heading -->
+        <h6 class="fw-semibold mb-0">Your Active Recruitments</h6>
+
+        <!-- Right side: buttons -->
+        <div class="d-flex gap-2 mt-2 mt-md-0">
+            <a class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addJobModal">
+                Add New Job
+            </a>
+            <a asp-controller="Jobs" asp-action="Index" class="btn btn-outline-primary btn-sm">
+                View All Jobs
+            </a>
+        </div>
+
+        <!-- Modal for adding job -->
         <div class="modal fade" id="addJobModal" tabindex="-1">
             <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content rounded-4 border-0">
@@ -182,9 +165,8 @@ body { background-color: #f8faff; font-family: 'Inter', 'Segoe UI', sans-serif; 
                 </div>
             </div>
         </div> 
-        <a asp-controller="Jobs" asp-action="Index" class="btn btn-outline-primary btn-sm">View All Jobs</a>
-
     </div>
+
 
     <!-- Empty / Jobs -->
     @if (Model == null || !Model.Any())
@@ -226,7 +208,6 @@ body { background-color: #f8faff; font-family: 'Inter', 'Segoe UI', sans-serif; 
                     </div>
                     
                     <div class="icon-group d-flex gap-3">
-                        <i class="bi bi-bookmark"></i>
                         <a asp-action="Edit" asp-route-id="@item.JobId" class="text-decoration-none"><i class="bi bi-pencil"></i></a>
                         <i class="bi bi-trash"></i>
                     </div>
@@ -251,7 +232,6 @@ body { background-color: #f8faff; font-family: 'Inter', 'Segoe UI', sans-serif; 
 </div>
 @await Html.PartialAsync("~/Views/Jobs/Details.cshtml")
 </body>
-
 
 
 

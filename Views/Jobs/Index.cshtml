@@ -4,7 +4,7 @@ function toggleBookmark(jobId, elem) {
     fetch('/Jobs/Toggle', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: jobId  // number directly
+        body: jobId  
     })
     .then(r => r.json())
     .then(data => {
@@ -18,7 +18,31 @@ function toggleBookmark(jobId, elem) {
     })
     .catch(err => console.error(err));
 }
+function deleteJob(jobId) {
+    if (!confirm("Are you sure you want to delete this job?")) return;
 
+    fetch('/Jobs/DeleteJob', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(jobId)
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            const jobCard = document.querySelector(`.job-card[data-job-id='${jobId}']`);
+            if (jobCard) jobCard.remove();
+            const notif = document.getElementById('notification');
+            notif.textContent = data.message;
+            notif.style.background = "hsl(231, 100%, 62%)";
+            notif.style.display = "block";
+
+            setTimeout(() => { notif.style.display = "none"; }, 3000);
+        } else {
+            alert("Error deleting job: " + data.message);
+        }
+    })
+    .catch(err => console.error(err));
+}
 
 </script>
 
@@ -33,7 +57,7 @@ function toggleBookmark(jobId, elem) {
 
     /* Job cards */
     .job-card { 
-        background: white; 
+        background: #ffffff; 
         border: 1px solid #eef2f6; 
         border-radius: 18px; 
         padding: 24px; 
@@ -160,7 +184,9 @@ function toggleBookmark(jobId, elem) {
             .ToList();
     }
 
-
+<div id="notification" 
+     style="position:fixed; top:20px; right:20px; z-index:2000; display:none; padding:15px 20px; border-radius:8px; background:#16a34a; color:white; box-shadow:0 2px 6px rgba(0,0,0,0.2); font-weight:600;">
+</div>
     <div class="row g-4">
 
         <!-- FILTER SIDEBAR -->
@@ -228,7 +254,7 @@ function toggleBookmark(jobId, elem) {
         </div>}
         @foreach (var item in Model)
         {
-            <div class="job-card">
+            <div class="job-card" data-job-id="@item.JobId">
                 <div class="d-flex justify-content-between">
                     <div class="d-flex gap-3">
                         <div>
@@ -260,12 +286,11 @@ function toggleBookmark(jobId, elem) {
                             onclick="toggleBookmark(@item.JobId, this)">
                         </i>
                     }
-                    @if (isPrivileged){
+                    @if (role=="Admin"){
                         <a asp-action="Edit" asp-route-id="@item.JobId" class="text-decoration-none">
                             <i class="bi bi-pencil"></i>
                         </a>
-                        <i class="bi bi-trash"></i>
-                    }
+                        <i class="bi bi-trash" style="cursor:pointer;"  onclick="deleteJob(@item.JobId)"></i>}
                 </div>
                 </div>
 

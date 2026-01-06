@@ -53,6 +53,9 @@ namespace JobPortal.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("JobId")
+                        .HasColumnType("int");
+
                     b.Property<byte[]>("ResumeData")
                         .IsRequired()
                         .HasColumnType("varbinary(max)");
@@ -71,7 +74,35 @@ namespace JobPortal.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("JobId");
+
                     b.ToTable("ApplyForms");
+                });
+
+            modelBuilder.Entity("JobPortal.Models.Bookmark", b =>
+                {
+                    b.Property<int>("BookmarkId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BookmarkId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("JobId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BookmarkId");
+
+                    b.HasIndex("JobId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Bookmarks");
                 });
 
             modelBuilder.Entity("JobPortal.Models.Job", b =>
@@ -219,6 +250,34 @@ namespace JobPortal.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("JobPortal.Models.Apply", b =>
+                {
+                    b.HasOne("JobPortal.Models.Job", "Job")
+                        .WithMany("ApplyForms")
+                        .HasForeignKey("JobId");
+
+                    b.Navigation("Job");
+                });
+
+            modelBuilder.Entity("JobPortal.Models.Bookmark", b =>
+                {
+                    b.HasOne("JobPortal.Models.Job", "Job")
+                        .WithMany("Bookmarks")
+                        .HasForeignKey("JobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("JobPortal.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Job");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("JobPortal.Models.Job", b =>
                 {
                     b.HasOne("JobPortal.Models.Organization", "Organization")
@@ -226,6 +285,13 @@ namespace JobPortal.Migrations
                         .HasForeignKey("OrganizationId");
 
                     b.Navigation("Organization");
+                });
+
+            modelBuilder.Entity("JobPortal.Models.Job", b =>
+                {
+                    b.Navigation("ApplyForms");
+
+                    b.Navigation("Bookmarks");
                 });
 
             modelBuilder.Entity("JobPortal.Models.Organization", b =>

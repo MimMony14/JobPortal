@@ -85,6 +85,8 @@ public class JobsController : Controller
         return View(job);
     }
 
+    // Toggle bookmark for a job (only for logged-in users)
+// Toggle bookmark for a job
 [HttpPost]
 public IActionResult Toggle([FromBody] int jobId)
 {
@@ -127,4 +129,60 @@ public IActionResult ShowBookmarks()
 
     return View("~/Views/Applicant/ShowBookmarks.cshtml",jobs);
 }
+    public IActionResult Edit(int id)
+    {
+        var job = _context.Jobs.Find(id);
+        if (job == null) return NotFound();
+
+        // Send organizations to dropdown
+        ViewBag.Organizations = new SelectList(
+            _context.Organizations,
+            "OrganizationId",
+            "OrganizationName",
+            job.OrganizationId
+        );
+
+        return View(job);
+    }
+    [HttpPost]
+    public IActionResult Edit(int id, Job job)
+    {
+        if (id != job.JobId) return BadRequest();
+
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                _context.Update(job);
+                _context.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.Jobs.Any(j => j.JobId == id))
+                    return NotFound();
+                else
+                    throw;
+            }
+            return RedirectToAction("Index");
+        }
+
+        ViewBag.Organizations = new SelectList(
+            _context.Organizations,
+            "OrganizationId",
+            "OrganizationName",
+            job.OrganizationId
+        );
+        return View(job);
+    }
+    [HttpPost]
+    public IActionResult DeleteJob([FromBody] int jobId)
+    {
+        var job = _context.Jobs.Find(jobId);
+        if (job == null) 
+            return Json(new { success = false, message = "Job not found" });
+
+        _context.Jobs.Remove(job);
+        _context.SaveChanges();
+        return Json(new { success = true, message = $"🗑️ Job '{job.Title}' deleted successfully!" });
+    }
 }
