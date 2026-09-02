@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,23 +42,16 @@
     <div class="container">
 
         <a class="navbar-brand fw-bold text-white"
-           asp-controller="Jobs"
+           asp-controller="Home"
            asp-action="Index">
-            JobPortal
+            <i class="bi bi-briefcase-fill me-2"></i>JobPortal
         </a>
         
         <!-- LEFT MENU -->
         <div class="ms-auto d-flex align-items-center">
-            <a class="btn btn-white-blue"
-            asp-controller="Home"
-            asp-action="About">
-                About Us
-            </a>
-            <a class="btn btn-white-blue"
-                   asp-controller="Home"
-                   asp-action="Index">
-                    Home
-            </a>
+            <a class="btn btn-white-blue" asp-controller="Home" asp-action="Index">Home</a>
+            <a class="btn btn-white-blue" asp-controller="Jobs" asp-action="Index">Find Jobs</a>
+            <a class="btn btn-white-blue" asp-controller="Home" asp-action="About">About Us</a>
 
             
             <a class="btn btn-white-blue"
@@ -115,8 +108,8 @@
 </div>
 
 
-<footer class="text-center mt-5 mb-3" style="font-weight:600;">
-    © 2025 - JobPortal
+<footer class="text-center mt-5 mb-3" style="font-weight:600;color:#64748b;">
+    © 2026 - JobPortal · Find your next opportunity
 </footer>
 
 <script>

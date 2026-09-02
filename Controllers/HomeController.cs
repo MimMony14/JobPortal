@@ -17,8 +17,7 @@ public class HomeController : Controller
     }
     public IActionResult Index()
     {
-        
-        return RedirectToAction("Index", "Jobs");
+        return View();
     }
     public IActionResult Admin()
     {

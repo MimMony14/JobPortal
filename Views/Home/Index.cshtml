@@ -1,30 +1,112 @@
-﻿@model List<string>
-@using Microsoft.AspNetCore.Http
-
-
- @{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Find Your Dream Job";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome Index</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="home-hero">
+    <div class="hero-glow hero-glow-one"></div>
+    <div class="hero-glow hero-glow-two"></div>
+    <div class="container home-hero-inner">
+        <div class="hero-copy">
+            <span class="eyebrow"><i class="bi bi-stars"></i> Your next opportunity starts here</span>
+            <h1>Find a job you’ll <span>love.</span></h1>
+            <p class="hero-text">Discover great opportunities, connect with employers, and take the next step in your career.</p>
 
+            <form class="hero-search" asp-controller="Jobs" asp-action="Index" method="get">
+                <div class="search-field">
+                    <i class="bi bi-search"></i>
+                    <input name="keyword" type="text" placeholder="Job title, keyword or skill" aria-label="Job title, keyword or skill" />
+                </div>
+                <div class="search-field search-location">
+                    <i class="bi bi-geo-alt"></i>
+                    <input name="location" type="text" placeholder="Location" aria-label="Location" />
+                </div>
+                <button class="search-btn" type="submit">Search Jobs <i class="bi bi-arrow-right"></i></button>
+            </form>
 
-<p>Total PDFs: @Model.Count</p>
+            <div class="popular-searches">
+                <span>Popular:</span>
+                <a asp-controller="Jobs" asp-action="Index" asp-route-keyword="Software Engineer">Software Engineer</a>
+                <a asp-controller="Jobs" asp-action="Index" asp-route-keyword="Marketing">Marketing</a>
+                <a asp-controller="Jobs" asp-action="Index" asp-route-keyword="Designer">Designer</a>
+                <a asp-controller="Jobs" asp-action="Index" asp-route-keyword="Internship">Internship</a>
+            </div>
+        </div>
 
-<ul>
-@foreach (var file in Model)
-{
-    <li>
-        <a href="/files/@file" target="_blank">@file</a>
-    </li>
-}
-</ul>
+        <div class="hero-visual" aria-hidden="true">
+            <div class="visual-card visual-card-main">
+                <div class="visual-top">
+                    <div class="company-avatar"><i class="bi bi-building"></i></div>
+                    <div>
+                        <strong>Great opportunities</strong>
+                        <small>Waiting for you</small>
+                    </div>
+                    <span class="verified"><i class="bi bi-patch-check-fill"></i></span>
+                </div>
+                <div class="visual-line"></div>
+                <div class="mini-job">
+                    <div class="mini-logo"><i class="bi bi-code-slash"></i></div>
+                    <div><strong>Software Developer</strong><small>Full-time · Remote</small></div>
+                    <span class="salary">$80K+</span>
+                </div>
+                <div class="mini-job">
+                    <div class="mini-logo alt"><i class="bi bi-megaphone"></i></div>
+                    <div><strong>Marketing Specialist</strong><small>Full-time · Hybrid</small></div>
+                    <span class="salary">$60K+</span>
+                </div>
+            </div>
+            <div class="floating-card floating-card-users"><i class="bi bi-people-fill"></i><div><strong>100+</strong><small>Opportunities</small></div></div>
+            <div class="floating-card floating-card-match"><i class="bi bi-check-circle-fill"></i><div><strong>Perfect match</strong><small>For your skills</small></div></div>
+        </div>
+    </div>
+</section>
 
-<form method="post">
-    <p>Name: <input type="text" name="Name" autofocus /></p>
-    <button type="submit">Done</button>
-</form>   
+<section class="categories-section">
+    <div class="container">
+        <div class="section-heading centered">
+            <span class="section-kicker">EXPLORE</span>
+            <h2>Explore popular categories</h2>
+            <p>Find the right role from a range of career paths.</p>
+        </div>
+        <div class="category-grid">
+            <a class="category-card" asp-controller="Jobs" asp-action="Index" asp-route-keyword="Software">
+                <span class="category-icon"><i class="bi bi-laptop"></i></span><span><strong>Technology</strong><small>Software & IT roles</small></span><i class="bi bi-arrow-up-right"></i>
+            </a>
+            <a class="category-card" asp-controller="Jobs" asp-action="Index" asp-route-keyword="Marketing">
+                <span class="category-icon icon-purple"><i class="bi bi-megaphone"></i></span><span><strong>Marketing</strong><small>Creative & growth</small></span><i class="bi bi-arrow-up-right"></i>
+            </a>
+            <a class="category-card" asp-controller="Jobs" asp-action="Index" asp-route-keyword="Finance">
+                <span class="category-icon icon-green"><i class="bi bi-graph-up-arrow"></i></span><span><strong>Finance</strong><small>Banking & accounting</small></span><i class="bi bi-arrow-up-right"></i>
+            </a>
+            <a class="category-card" asp-controller="Jobs" asp-action="Index" asp-route-keyword="Design">
+                <span class="category-icon icon-orange"><i class="bi bi-palette"></i></span><span><strong>Design</strong><small>UI/UX & visual design</small></span><i class="bi bi-arrow-up-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
 
+<section class="jobs-cta-section">
+    <div class="container">
+        <div class="jobs-cta">
+            <div>
+                <span class="section-kicker light">READY TO START?</span>
+                <h2>Your next career move is one click away.</h2>
+                <p>Browse available jobs and find an opportunity that fits your goals.</p>
+            </div>
+            <a class="cta-button" asp-controller="Jobs" asp-action="Index">Browse All Jobs <i class="bi bi-arrow-right"></i></a>
+        </div>
+    </div>
+</section>
+
+<section class="why-section">
+    <div class="container">
+        <div class="section-heading centered">
+            <span class="section-kicker">WHY JOBPORTAL</span>
+            <h2>Everything you need to move forward</h2>
+        </div>
+        <div class="why-grid">
+            <div class="why-card"><span><i class="bi bi-search"></i></span><h3>Easy job search</h3><p>Quickly filter and discover roles based on your skills and preferred job type.</p></div>
+            <div class="why-card"><span><i class="bi bi-send-check"></i></span><h3>Simple applications</h3><p>Find a suitable position and move from discovery to application with less friction.</p></div>
+            <div class="why-card"><span><i class="bi bi-bookmark-heart"></i></span><h3>Save opportunities</h3><p>Bookmark jobs you like so you can return to them when you are ready to apply.</p></div>
+        </div>
+    </div>
+</section>
