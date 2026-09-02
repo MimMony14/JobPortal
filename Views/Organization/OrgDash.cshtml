@@ -1,0 +1,266 @@
+@model IEnumerable<JobPortal.Models.Job>
+
+@{
+    ViewData["Title"] = "Job Portal";
+}
+<script>
+function deleteJob(jobId, orgId) {
+    if (!confirm("Are you sure you want to delete this job?")) return;
+
+    fetch('/Organization/DeleteJob', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ jobId: jobId, orgId: orgId })  // include orgId
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.success) {
+            const jobCard = document.querySelector(`.job-card[data-job-id='${jobId}']`);
+            if (jobCard) jobCard.remove();
+            const notif = document.getElementById('notification');
+            notif.textContent = data.message;
+            notif.style.background = "hsl(231, 100%, 62%)";
+            notif.style.display = "block";
+            setTimeout(() => { notif.style.display = "none"; }, 3000);
+        } else {
+            alert("Error deleting job: " + data.message);
+        }
+    })
+    .catch(err => console.error(err));
+}
+
+</script>
+<!-- Bootstrap Icons -->
+<style>
+body { background-color: #f8faff; font-family: 'Inter', 'Segoe UI', sans-serif; }
+
+/* Job cards */
+.job-card { 
+    background: white; 
+    border: 1px solid #eef2f6; 
+    border-radius: 18px; 
+    padding: 24px; 
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.company-logo { 
+    width: 52px; height: 52px; 
+    border-radius: 12px; 
+    object-fit: cover;
+    background: #f1f5f9;
+}
+
+.badge-type { background: #f1f3f5; color: #64748b; font-weight: 600; font-size: 11px; padding: 4px 10px; border-radius: 6px; text-transform: uppercase; }
+
+.job-title { color: #0f172a; font-weight: 700; font-size: 1.2rem; text-decoration: none; }
+.job-title:hover { color: #2563eb; }
+
+.price-text { color: #16a34a; font-weight: 600; }
+.meta-text { color: #64748b; font-size: 0.9rem; }
+
+.btn-action-outline { border: 1px solid #e2e8f0; color: #475569; border-radius: 10px; padding: 10px; font-weight: 600; width: 100%; background: white; transition: 0.2s; }
+.btn-action-outline:hover { background: #f8fafc; border-color: #cbd5e1; }
+
+.btn-hiring-panel { border: 1px solid #dcfce7; color: #16a34a; border-radius: 10px; padding: 10px; font-weight: 600; width: 100%; background: white; transition: 0.2s; }
+.btn-hiring-panel:hover { background: #f0fdf4; }
+
+.icon-group .bi { color: #94a3b8; font-size: 1.1rem; cursor: pointer; transition: 0.2s; }
+.icon-group .bi:hover { color: #475569; }
+
+/* Modal / overlay */
+#jobDetailsOverlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1050;
+    background-color: rgba(15,23,42,0.35);
+    backdrop-filter: blur(6px);
+    overflow-y: auto;
+    padding: 50px 15px;
+}
+
+#jobDetailsOverlay .overlay-card {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+#jobDetailsOverlay .close-btn {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    border: none;
+    background: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+.overlay-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.company-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+.company-info img {
+    width: 48px;
+    height: 48px;
+    border-radius: 8px;
+    object-fit: cover;
+}
+.company-info div span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    margin: 16px 0;
+    background: #f8fafc;
+    padding: 12px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+}
+.info-row div span:first-child { color: #64748b; display:block; font-size:0.8rem; margin-bottom:4px; }
+
+.tag { 
+    background: #f1f3f5; 
+    color: #0f172a; 
+    font-size: 0.8rem; 
+    padding: 4px 10px; 
+    border-radius: 8px;
+    display:inline-block;
+    margin-right:6px;
+    margin-top:6px;
+}
+</style>
+<body>
+    <div id="notification" 
+     style="position:fixed; top:20px; right:20px; z-index:2000; display:none; padding:15px 20px; border-radius:8px; background:#16a34a; color:white; box-shadow:0 2px 6px rgba(0,0,0,0.2); font-weight:600;">
+</div>
+<div class="container my-5">
+
+    <!-- Hero Card -->
+    <div class="bg-white rounded-4 p-5 shadow-sm">
+
+        <!-- Heading -->
+        <div class="text-center mb-4">
+            <h1 class="fw-bold">
+                Hire Top Talent <span class="text-primary">Faster</span>
+            </h1>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mt-5 mb-3 flex-wrap">
+        <!-- Left side: heading -->
+        <h6 class="fw-semibold mb-0">Your Active Recruitments</h6>
+
+        <!-- Right side: buttons -->
+        <div class="d-flex gap-2 mt-2 mt-md-0">
+            <a class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#addJobModal">
+                Add New Job
+            </a>
+            <a asp-controller="Jobs" asp-action="Index" class="btn btn-outline-primary btn-sm">
+                View All Jobs
+            </a>
+        </div>
+
+        <!-- Modal for adding job -->
+        <div class="modal fade" id="addJobModal" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+                <div class="modal-content rounded-4 border-0">
+                    <div class="modal-header border-0">
+                        <h5 class="modal-title fw-semibold text-black">Post a New Job</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body text-black">
+                        @await Html.PartialAsync("_PostCreate", new Job())
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+
+
+    <!-- Empty / Jobs -->
+    @if (Model == null || !Model.Any())
+    {
+        <div class="bg-white rounded-4 p-5 text-center text-muted border border-2 border-secondary border-opacity-25">
+            No jobs found matching your filters.
+        </div>
+    }
+    else
+    {
+        <div class="row g-3">
+            @foreach (var item in Model)
+            {
+                <div class="job-card" data-job-id="@item.JobId">
+                    <div class="d-flex justify-content-between">
+                    <div class="d-flex gap-3">
+                        <div>
+                            <div class="d-flex align-items-center gap-2 mb-1">
+                                <span class="text-primary fw-bold small" style="letter-spacing: 0.5px;">
+                                    @item.Organization?.OrganizationName.ToUpper()
+                                </span>
+                                <span class="badge-type">@item.JobType</span>
+                            </div>
+
+                            <a href="javascript:void(0)" 
+                            class="job-title"
+                            onclick="openJobOverlay('@item.Title', '@item.Organization?.OrganizationName','@item.JobType','@item.Address','@item.Salary','@(item.CreateDate?.ToString("MMM dd"))','@item.Description')">
+                                @item.Title
+                            </a>
+
+                            <div class="mt-2 d-flex gap-3 meta-text">
+                                <span><i class="bi bi-geo-alt-fill text-primary"></i> @item.Address</span>
+                                <span class="price-text">
+                                    <i class="bi bi-currency-dollar"></i> @item.Salary
+                                </span>
+                                <span><i class="bi bi-clock"></i> @(item.CreateDate.HasValue ? item.CreateDate.Value.ToString("MMM dd") : "N/A")</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="icon-group d-flex gap-3">
+                        <a asp-controller="Jobs" asp-action="Edit" asp-route-id="@item.JobId" class="text-decoration-none"><i class="bi bi-pencil"></i></a>
+                        <i class="bi bi-trash" style="cursor:pointer;"   onclick="deleteJob(@item.JobId, @ViewBag.OrganizationId)"></i>
+
+                    </div>
+                    </div>
+
+                    <div class="row g-3 mt-3">
+                    <div class="col-6">
+                        <button class="btn btn-action-outline w-100"
+                            onclick="openJobOverlay('@item.Title','@item.Organization?.OrganizationName','@item.JobType','@item.Address','@item.Salary','@(item.CreateDate?.ToString("MMM dd"))','@item.Description')">
+                            Details
+                        </button>
+                    </div>
+                    <div class="col-6">
+                    <button class="btn btn-hiring-panel w-100" type="button" onclick="openOverlay(@item.JobId)"> Hiring Panel </button>
+                    @await Html.PartialAsync("~/Views/Admin/JobStats.cshtml",item)
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+    }
+</div>
+@await Html.PartialAsync("~/Views/Jobs/Details.cshtml")
+
+
+</body>

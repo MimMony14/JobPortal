@@ -1,0 +1,172 @@
+CREATE DATABASE JobPortal;
+
+USE JobPortal;
+
+-- First, create the Organizations table
+CREATE TABLE Organizations (
+    OrganizationId INT IDENTITY(1,1) PRIMARY KEY,
+    OrganizationName VARCHAR(200),
+	Password NVARCHAR(100) NOT NULL,
+	Website VARCHAR(100),
+	Email VARCHAR(50),
+    Role NVARCHAR(20) NOT NULL -- Org
+);
+
+-- Then, create the Jobs table with a foreign key
+CREATE TABLE Jobs (
+JobId INT IDENTITY(1,1) PRIMARY KEY,
+Title VARCHAR(100) NOT NULL,
+Vacancy INT,
+Description VARCHAR(MAX),
+Qualification VARCHAR(50),
+Experience VARCHAR(50),
+Specialization VARCHAR(MAX),
+LastDateToApply Date,
+Salary float,
+JobType VARCHAR(50),
+Tags VARCHAR(MAX),
+OrganizationId INT,  -- foreign key
+Address VARCHAR(50),
+Country VARCHAR(50),
+State VARCHAR(50),
+CreateDate DATETIME DEFAULT GETDATE(),
+CONSTRAINT FK_Jobs_Organizations FOREIGN KEY (OrganizationId)
+        REFERENCES Organizations(OrganizationId)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
+);
+
+-- Add an organization
+INSERT INTO Organizations (OrganizationName, Password, Website, Email, Role)
+VALUES ('TechCorp', 'abc', 'https://techcorp.com', 'info@techcorp.com','Organization'),
+('Acme Corp', 'abc', 'https://acme.com', 'hr@acme.com','Organization'),
+('TechNova Ltd', 'abc', 'https://technova.io', 'careers@technova.io','Organization'),
+('ByteWorks',  'abc', 'https://byteworks.dev', 'jobs@byteworks.dev','Organization'),
+('CloudNine',  'abc', 'https://cloudnine.ai', 'admin@cloudnine.ai','Organization');
+
+INSERT INTO Jobs (Title, Vacancy, Description, Qualification, Experience, Specialization, LastDateToApply, Salary, JobType, Tags, OrganizationId, Address, Country, State, CreateDate)
+VALUES 
+('Software Engineer', 5, 'Develop and maintain software applications.', 'BSc in CS', '2 years', 'Backend Development', '2026-01-31', 5000, 'Full-Time', 'Python, C#, mySQL', 1, '123 Tech Street', 'USA', 'California', '2026-01-01'),
+('Web Developer', 5, 'Build and maintain web apps', 'BSc in CSE', '1-2 years', 'Web Development', '2026-02-15', 45000, 'Full Time','HTML,CSS,JavaScript', 1, 'Dhaka', 'Bangladesh', 'Dhaka', '2026-01-01'),
+('Backend Developer', 3, 'API and database work', 'BSc in CSE', '2-3 years', 'Backend', '2026-02-20', 60000, 'Full Time', 'C#,ASP.NET,SQL', 2, 'Dhaka', 'Bangladesh', 'Dhaka', '2026-01-02'),
+('Junior Software Engineer', 8, 'Assist senior engineers', 'BSc in CSE', 'Fresh', 'Software Engineering', '2026-02-25', 35000, 'Full Time', 'C++,OOP,Git', 3, 'Dhaka', 'Bangladesh', 'Dhaka', '2026-01-03'),
+('AI Research Intern', 2, 'Work on ML models', 'BSc in CSE', 'Final year', 'Artificial Intelligence', '2026-02-28', 20000, 'Internship', 'Python,ML,Data Science', 4, 'Dhaka', 'Bangladesh', 'Dhaka', '2026-01-04'),
+('Frontend Developer', 4, 'UI development', 'BSc in CSE', '1 year', 'Frontend', '2026-03-01', 50000, 'Contract','React,TypeScript,Tailwind', 2, 'Dhaka', 'Bangladesh', 'Dhaka', '2026-01-05');
+
+
+ // User table
+
+ CREATE TABLE Users (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+    FullName NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(100) NOT NULL UNIQUE,
+    Password NVARCHAR(100) NOT NULL,
+    Role NVARCHAR(20) NOT NULL -- User 
+);
+
+// ApplyForm
+
+
+CREATE TABLE ApplyForms
+(
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+
+    -- BASIC INFO
+    FullName NVARCHAR(150) NOT NULL,
+    Email NVARCHAR(256) NOT NULL,
+
+    -- RESUME (FILE + PATH)
+    ResumeData VARBINARY(MAX) NOT NULL,      -- ✅ File in DB
+    ResumeFileName NVARCHAR(255) NOT NULL,
+    ResumePath NVARCHAR(500) NOT NULL,       -- ✅ File path in DB
+
+    -- COVER LETTER (FILE + PATH)
+    CoverLetterData VARBINARY(MAX) NOT NULL, -- ✅ File in DB
+    CoverLetterFileName NVARCHAR(255) NOT NULL,
+    CoverLetterPath NVARCHAR(500) NOT NULL   -- ✅ File path in DB
+);
+
+CREATE TABLE ApplyForms (
+    Id INT IDENTITY(1,1) PRIMARY KEY,
+
+    -- Applicant info
+    FullName NVARCHAR(200) NOT NULL,
+    Email NVARCHAR(200) NOT NULL,
+
+    -- Resume
+    ResumeData VARBINARY(MAX) NOT NULL,
+    ResumeFileName NVARCHAR(255) NOT NULL,
+    ResumePath NVARCHAR(500) NOT NULL,
+
+    -- Cover Letter
+    CoverLetterData VARBINARY(MAX) NOT NULL,
+    CoverLetterFileName NVARCHAR(255) NOT NULL,
+    CoverLetterPath NVARCHAR(500) NOT NULL,
+
+    -- Application status
+    Status NVARCHAR(50) NOT NULL DEFAULT 'Pending',
+
+    AppliedDate DATETIME NOT NULL DEFAULT GETDATE()
+);
+
+-- Dummy Organizations
+INSERT INTO Organizations (OrganizationName, Password, Website, Email, Role)
+VALUES 
+('TechCorp', 'abc', 'https://techcorp.com', 'info@techcorp.com','Organization'),
+('Acme Corp', 'abc', 'https://acme.com', 'hr@acme.com','Organization'),
+('TechNova Ltd', 'abc', 'https://technova.io', 'careers@technova.io','Organization'),
+('ByteWorks',  'abc', 'https://byteworks.dev', 'jobs@byteworks.dev','Organization'),
+('CloudNine',  'abc', 'https://cloudnine.ai', 'admin@cloudnine.ai','Organization'),
+('TechCorp', 'pass123', 'https://techcorp.com', 'hr@techcorp.com', 'Org'),
+('HealthPlus', 'pass123', 'https://healthplus.com', 'contact@healthplus.com', 'Org'),
+('EduWorld', 'pass123', 'https://eduworld.com', 'info@eduworld.com', 'Org');
+
+-- Dummy Jobs
+INSERT INTO Jobs (Title, Vacancy, Description, Qualification, Experience, Specialization, LastDateToApply, Salary, JobType, Tags, OrganizationId, Address, Country, State, CreateDate)
+VALUES
+('Software Engineer', 5, 'Develop and maintain software applications.', 'BSc in CS', '2 years', 'Backend Development', '2026-01-31', 5000, 'Full-Time', 'Python, C#, mySQL', 1, '123 Tech Street', 'USA', 'California', '2026-01-01'),
+('Web Developer', 5, 'Build and maintain web apps', 'BSc in CSE', '1-2 years', 'Web Development', '2026-02-15', 45000, 'Full Time','HTML,CSS,JavaScript', 1, 'Dhaka', 'Bangladesh', 'Dhaka', '2026-01-01'),
+('Backend Developer', 3, 'API and database work', 'BSc in CSE', '2-3 years', 'Backend', '2026-02-20', 60000, 'Full Time', 'C#,ASP.NET,SQL', 2, 'Dhaka', 'Bangladesh', 'Dhaka', '2026-01-02'),
+('Junior Software Engineer', 8, 'Assist senior engineers', 'BSc in CSE', 'Fresh', 'Software Engineering', '2026-02-25', 35000, 'Full Time', 'C++,OOP,Git', 3, 'Dhaka', 'Bangladesh', 'Dhaka', '2026-01-03'),
+('AI Research Intern', 2, 'Work on ML models', 'BSc in CSE', 'Final year', 'Artificial Intelligence', '2026-02-28', 20000, 'Internship', 'Python,ML,Data Science', 4, 'Dhaka', 'Bangladesh', 'Dhaka', '2026-01-04'),
+('Frontend Developer', 4, 'UI development', 'BSc in CSE', '1 year', 'Frontend', '2026-03-01', 50000, 'Contract','React,TypeScript,Tailwind', 2, 'Dhaka', 'Bangladesh', 'Dhaka', '2026-01-05');
+
+-- Dummy Users
+INSERT INTO Users (FullName, Email, Password, Role)
+VALUES
+('Lamia Jamal', 'lamia@example.com', 'password1', 'User'),
+('John Doe', 'john@example.com', 'password2', 'User'),
+('Jane Smith', 'jane@example.com', 'password3', 'User');
+
+-- Dummy Applications
+-- For ResumeData and CoverLetterData, just insert empty VARBINARY for testing
+INSERT INTO Apply (FullName, Email, ResumeData, ResumeFileName, ResumePath, CoverLetterData, CoverLetterFileName, CoverLetterPath, Status)
+VALUES
+('Lamia Jamal', 'lamia@example.com', 0x0, 'Resume_Lamia.pdf', '/resumes/Resume_Lamia.pdf', 0x0, 'CoverLetter_Lamia.pdf', '/coverletters/CoverLetter_Lamia.pdf', 'Pending'),
+('John Doe', 'john@example.com', 0x0, 'Resume_John.pdf', '/resumes/Resume_John.pdf', 0x0, 'CoverLetter_John.pdf', '/coverletters/CoverLetter_John.pdf', 'Pending'),
+('Jane Smith', 'jane@example.com', 0x0, 'Resume_Jane.pdf', '/resumes/Resume_Jane.pdf', 0x0, 'CoverLetter_Jane.pdf', '/coverletters/CoverLetter_Jane.pdf', 'Pending');
+
+
+---added a job fk in apply form
+
+-- Create a table to store bookmarks
+CREATE TABLE Bookmarks (
+    BookmarkId INT IDENTITY(1,1) PRIMARY KEY,
+    UserId INT NOT NULL,
+    JobId INT NOT NULL,
+    CreatedAt DATETIME DEFAULT GETDATE(),
+    CONSTRAINT FK_Bookmarks_Users FOREIGN KEY (UserId)
+        REFERENCES Users(Id)
+        ON DELETE CASCADE,
+    CONSTRAINT FK_Bookmarks_Jobs FOREIGN KEY (JobId)
+        REFERENCES Jobs(JobId)
+        ON DELETE CASCADE,
+    CONSTRAINT UQ_User_Job UNIQUE (UserId, JobId) -- prevent duplicate bookmarks
+);
+ALTER TABLE ApplyForms
+ADD JobId INT NULL;
+
+ALTER TABLE ApplyForms
+ADD CONSTRAINT FK_Apply_Jobs
+FOREIGN KEY (JobId) REFERENCES Jobs(JobId)
+ON DELETE SET NULL;

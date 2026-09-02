@@ -1,0 +1,30 @@
+﻿@model List<string>
+@using Microsoft.AspNetCore.Http
+
+
+ @{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome Index</h1>
+    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+
+<p>Total PDFs: @Model.Count</p>
+
+<ul>
+@foreach (var file in Model)
+{
+    <li>
+        <a href="/files/@file" target="_blank">@file</a>
+    </li>
+}
+</ul>
+
+<form method="post">
+    <p>Name: <input type="text" name="Name" autofocus /></p>
+    <button type="submit">Done</button>
+</form>   
+

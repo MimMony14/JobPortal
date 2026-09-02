@@ -1,0 +1,61 @@
+@model IEnumerable<JobPortal.Models.Job>
+
+@{
+    var role = Context.Session.GetString("Role");
+    var isPrivileged = role == "Admin" || role == "Organization";
+}
+
+<div class="container py-5" style="max-width: 850px;">
+    <h3 class="mb-4">My Bookmarked Posts</h3>
+
+    @if (!Model.Any())
+    {
+        <p>You have no bookmarked jobs yet.</p>
+    }
+
+    @foreach (var item in Model)
+    {
+        <div class="job-card mb-3">
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <div class="d-flex align-items-center gap-2 mb-1">
+                        <span class="text-primary fw-bold small">@item.Organization?.OrganizationName.ToUpper()</span>
+                        <span class="badge-type">@item.JobType</span>
+                    </div>
+                    <a href="@Url.Action("Details", "Jobs", new { id = item.JobId })" class="job-title">@item.Title</a>
+                    <div class="mt-2 meta-text">
+                        <span><i class="bi bi-geo-alt-fill text-primary"></i> @item.Address</span> |
+                        <span><i class="bi bi-currency-dollar"></i> @item.Salary</span>
+                    </div>
+                </div>
+                <div class="icon-group">
+                    <i class="bi bi-bookmark-fill text-primary" 
+                       onclick="toggleBookmark(@item.JobId, this)"></i>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+<script>
+function toggleBookmark(jobId, elem) {
+    fetch('/Jobs/Toggle', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: jobId
+    })
+    .then(r => r.json())
+    .then(data => {
+        if (data.bookmarked) {
+            elem.classList.add('bi-bookmark-fill', 'text-warning');
+            elem.classList.remove('bi-bookmark');
+        } else {
+            elem.classList.remove('bi-bookmark-fill', 'text-warning');
+            elem.classList.add('bi-bookmark');
+            // optional: remove card from page if you want live update
+            elem.closest('.job-card').remove();
+        }
+    })
+    .catch(err => console.error(err));
+}
+</script>

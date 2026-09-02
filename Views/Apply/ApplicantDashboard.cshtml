@@ -1,0 +1,30 @@
+@model IEnumerable<JobPortal.Models.Apply>
+
+<h3>My Dashboard</h3>
+
+<div class="row mb-3">
+    <div class="col">Total: <b>@ViewBag.Total</b></div>
+    <div class="col text-warning">Pending: <b>@ViewBag.Pending</b></div>
+    <div class="col text-success">Accepted: <b>@ViewBag.Accepted</b></div>
+    <div class="col text-danger">Rejected: <b>@ViewBag.Rejected</b></div>
+</div>
+
+<table class="table">
+    <tr>
+        <th>Date</th>
+        <th>Resume</th>
+        <th>Cover</th>
+        <th>Status</th>
+    </tr>
+
+@foreach (var a in Model)
+{
+    <tr>
+        <td>@a.AppliedDate.ToShortDateString()</td>
+        <td><a href="~/@a.ResumePath" target="_blank">View</a></td>
+        <td><a href="~/@a.CoverLetterPath" target="_blank">View</a></td>
+        <td>@a.Status</td>
+    </tr>
+}
+</table>
+        

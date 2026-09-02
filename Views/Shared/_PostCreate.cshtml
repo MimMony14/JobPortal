@@ -1,0 +1,88 @@
+@model JobPortal.Models.Job
+@using Microsoft.AspNetCore.Mvc.Rendering
+@{
+    var formAction = ViewData["FormAction"]?.ToString() ?? "Create";
+}
+<form asp-controller="Jobs" asp-action="@formAction" method="post">
+    @Html.AntiForgeryToken()
+<input type="hidden" asp-for="JobId" />
+    <!-- STEP 1 -->
+    <div id="step1">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <label class="form-label">Job Title</label>
+                <input asp-for="Title" class="form-control" placeholder="e.g. Senior Product Designer" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Company Name</label>
+                <select asp-for="OrganizationId" asp-items="ViewBag.Organizations" class="form-select">
+                    <option value="">Select company</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Location</label>
+                <input asp-for="Address" class="form-control" placeholder="e.g. Remote, NY" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Job Type</label>
+                <input asp-for="JobType" class="form-control" placeholder="Full-time" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Salary</label>
+                <input asp-for="Salary" type="number" step="0.01" class="form-control" placeholder="100000" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Vacancy</label>
+                <input asp-for="Vacancy" type="number" class="form-control" />
+            </div>
+        </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div id="step2" class="d-none">
+        <div class="row g-3">
+            <div class="col-12">
+                <label class="form-label">Tags (comma separated)</label>
+                <input asp-for="Specialization" class="form-control" placeholder="React, Design, Marketing" />
+            </div>
+            <div class="col-12">
+                <label class="form-label">Key Skills</label>
+                <input asp-for="Description" class="form-control" placeholder="Briefly list key skills e.g. React, Node, AWS" />
+            </div>
+            <div class="col-12">
+                <label class="form-label">Detailed Description</label>
+                <textarea asp-for="Description" class="form-control" rows="4" placeholder="What makes this role special?"></textarea>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Qualification</label>
+                <input asp-for="Qualification" class="form-control" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Experience</label>
+                <input asp-for="Experience" class="form-control" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Country</label>
+                <input asp-for="Country" class="form-control" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">State</label>
+                <input asp-for="State" class="form-control" />
+            </div>
+            <div class="col-md-6">
+                <label class="form-label">Last Date to Apply</label>
+                <input asp-for="LastDateToApply" type="date" class="form-control" />
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER Buttons -->
+    <div class="mt-3" id="step1Buttons">
+        <button type="button" class="btn btn-primary px-4" onclick="goToStep2()">Continue</button>
+    </div>
+
+    <div class="mt-3 d-none" id="step2Buttons">
+        <button type="button" class="btn btn-light" onclick="goToStep1()">Back</button>
+        <button type="submit" class="btn btn-primary px-4">@((formAction == "Edit") ? "Update Job" : "Publish Job")</button>
+    </div>
+</form>
